@@ -1,6 +1,7 @@
 #include <iostream>
 #include "CharacterV2.h"
 #include "Item.h"
+#include "event.h"
 using namespace std;
 
 int main()
@@ -132,12 +133,48 @@ int main()
     chris.passDay(bonus);
     */
     
-    while(days <= 5)
+    ExpeditionSystem myExpedition;
+
+    while(days <= 15)
     {
+        // 冒險部分
+        if (myExpedition.checkReturn()) 
+        {
+            myExpedition.resolveReturn(playerPackage, cindy, chris);
+            if(myExpedition.getExpeditionName() == "Cindy" && myExpedition.neverBack)
+            {
+                cindy.isInTheWild = false;
+            }
+            if(myExpedition.getExpeditionName() == "Chris" && myExpedition.neverBack)
+            {
+                chris.isInTheWild = false;
+            }
+        }
+        // 已經死在外面不會回來了
+        int nextNeverBackMsg = 0;
+        if(myExpedition.neverBack && nextNeverBackMsg < 2)
+        {
+            cout << myExpedition.getExpeditionName() << "已經好久沒回來了，不知道在外頭發生什麼事";
+            nextNeverBackMsg++;
+        }
+        else if(myExpedition.neverBack && nextNeverBackMsg >= 2)
+        {
+            cout << myExpedition.getExpeditionName() << "似乎永遠不會回來了吧...";
+        }
+
+
         cout << "Day " << days << ":\n";
         cindy.isAlive() ? cout << "Cindy is alive.\n" : cout << "Cindy has perished.\n";
-        cindy.displayStatus();
-        cindy.passDay();
+        
+        if(cindy.isInTheWild)
+        {
+            cout << "Cindy目前正在外面探險";
+        }
+        else
+        {
+            cindy.displayStatus();
+            cindy.passDay();
+        }
 
         int feedAmount, waterAmount, entertainAmount;
         cin >> feedAmount >> waterAmount >> entertainAmount;
@@ -148,5 +185,51 @@ int main()
         cout << "this day ends\n";
         cout << "-----------------------\n";
         days++;
+
+        // --- 玩家決策 (如果沒人在外面並且兩人都活著，可以派人) ---
+        if (!myExpedition.isExpeditionActive() && cindy.isAliveStatus() && chris.isAliveStatus() 
+            && !cindy.isInTheWild && !chris.isInTheWild && days >= 5 && days <= 10 && myExpedition.hadExpedition == false)
+        {
+            cout << "現在避難所全員都在。" << endl;
+            cout << "要派人出去探險嗎嗎？ (y:是 / n:否): ";
+            char choice;
+            cin >> choice;
+
+            if (choice == 'y' || choice == 'Y') 
+            {
+                cout << "請輸入要派出的人名 (例如 Cindy/Chris): ";
+                string name;
+                cin >> name;
+                if(name == "Cindy" && cindy.isAliveStatus())
+                {
+                    cindy.isInTheWild = true;
+                    myExpedition.startExpedition(cindy, playerPackage);
+                }
+                else if(name == "Chris" && chris.isAliveStatus())
+                {
+                    chris.isInTheWild = true;
+                    myExpedition.startExpedition(chris, playerPackage);
+                }
+                else
+                {
+                    cout << "輸入的名字無效，今天選擇不冒險" << endl;
+                }
+            }
+            else
+            {
+                cout << "今天選擇不冒險";
+            }
+        } 
+
+
+
+        if(myExpedition.getExpeditionName() == "Cindy")
+            {
+                myExpedition.updateDaily(cindy);
+            }
+        else if(myExpedition.getExpeditionName() == "Chris")
+            {
+                myExpedition.updateDaily(chris);;
+            }
     }
 }

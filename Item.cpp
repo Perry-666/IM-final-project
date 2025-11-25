@@ -7,7 +7,7 @@ using namespace std;
 Package::Package(int qWater, int qFood, int qAxe, 
         int qPistol, int qGame, int qBook, int qGasMask, int qMap, int qSaxophone, int qRadio, int qMedKit) 
 {
-    items[0] = new Water("battled water", qWater);
+    items[0] = new Water("bottled water", qWater);
     items[1] = new Food("can", qFood);
     items[2] = new Axe("axe", qAxe);
     items[3] = new Pistol("pistol", qPistol);
@@ -22,7 +22,7 @@ Package::Package(int qWater, int qFood, int qAxe,
 
 void Package::addItem(string addName, int q)
 {
-    for (int i = 0; i < 10; ++i) 
+    for (int i = 0; i < 11; ++i) 
     {
         if (items[i]->getName() == addName) 
         {
@@ -36,7 +36,7 @@ void Package::addItem(string addName, int q)
 
 void Package::useItem(string useName, int q, Character& character)
 {
-    for (int i = 0; i < 10; ++i) 
+    for (int i = 0; i < 11; ++i) 
     {
         if (items[i]->getName() == useName) 
         {
@@ -56,9 +56,20 @@ void Package::useItem(string useName, int q, Character& character)
     cout << "Item " << useName << " not found in the package." << endl;
 }
 
+int Package::showItemQuantity(string itemName)
+{
+    for (int i = 0; i < 11; ++i) 
+    {
+        if (items[i]->getName() == itemName) 
+        {
+            return items[i]->getQuantity();
+        }
+    }
+}
+
 void Package::deleteItem(string delName, int q)
 {
-    for (int i = 0; i < 10; ++i) 
+    for (int i = 0; i < 11; ++i) 
     {
         if (items[i]->getName() == delName) 
         {
@@ -80,7 +91,7 @@ void Package::deleteItem(string delName, int q)
 void Package::displayItems()
 {
     cout << "Items in the package:" << endl;
-    for (int i = 0; i < 10; ++i) 
+    for (int i = 0; i < 11; ++i) 
     {
         cout << items[i]->getName() << ": " << items[i]->getQuantity() << endl;
     }
@@ -88,7 +99,7 @@ void Package::displayItems()
 
 Package::~Package()
 {
-    for (int i = 0; i < 10; ++i) 
+    for (int i = 0; i < 11; ++i) 
     {
         delete items[i];
     }

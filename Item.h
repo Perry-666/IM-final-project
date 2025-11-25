@@ -28,6 +28,7 @@ class Package
         int qPistol, int qGame, int qBook, int qGasMask, int qMap, int qSaxophone, int qRadio, int qMedKit);
         void addItem(string addName, int q);
         void useItem(string useName, int q, Character& character);
+        int showItemQuantity(string itemName);
         void deleteItem(string delName, int q);
         void displayItems();
         ~Package();

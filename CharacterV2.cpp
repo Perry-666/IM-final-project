@@ -132,3 +132,15 @@ void Character::recoveryFull(){
     cout << name << "使用了急救包後身體完全康復" << "\n";
 }
 
+void Character::kill() // 皓瑋
+{ 
+    isAlive = false; 
+    thirst = 0; hunger = 0; mental = 0;
+}
+
+void Character::setStatus(int t, int h, int m)
+{       
+    thirst = t;
+    hunger = h;
+    mental = m;
+}

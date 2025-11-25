@@ -32,19 +32,26 @@ public:
 
     bool isSickStatus() const;
 
-
     void recoveryFull();
+    
+    bool isInTheWild;
 
+    bool isAliveStatus() const { return isAlive; } // 皓瑋
 
-    bool isInTheWild();
+    void kill();   // 皓瑋
 
+    bool bodyNotGood() const { return (thirst < 20) || (hunger < 20) || (mental < 25); }  // 皓瑋
+
+    string getName() const { return name; }
+
+    void setStatus(int t, int h, int m);
 
 };
 
 
 class Cindy : public Character{
 public:
-    Cindy() : Character("Cindy", 35, 20, 15){}
+    Cindy() : Character("Cindy", 35, 20, 15) {isInTheWild = false;}
     
     
     void drinkWater(int bottles) override{
@@ -71,7 +78,7 @@ public:
 
 class Chris : public Character{
 public:
-    Chris() : Character("Chris", 25, 25, 15){}
+    Chris() : Character("Chris", 25, 25, 15){isInTheWild = false;}
     
     void drinkWater(int bottles) override {
         if(!isAlive) return;
