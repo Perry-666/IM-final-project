@@ -11,7 +11,7 @@ protected:
     int dailyFoodConsumed;        
     int dailySpiritConsumed;
     
-    bool isAlive; 
+    bool isAlive;
     bool isSick;
     int sickDays;
 
@@ -45,6 +45,12 @@ public:
     string getName() const { return name; }
 
     void setStatus(int t, int h, int m);
+
+    void thirstChange(int units);
+
+    void hungerChange(int units);
+
+    void mentalChange(int units);
 
 };
 

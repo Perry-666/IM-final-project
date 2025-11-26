@@ -144,3 +144,12 @@ void Character::setStatus(int t, int h, int m)
     hunger = h;
     mental = m;
 }
+void Character::thirstChange(int units){
+    thirst += units;
+}
+void Character::hungerChange(int units){
+    hunger += units;
+}
+void Character::mentalChange(int units){
+    mental += units;
+}
