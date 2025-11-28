@@ -29,7 +29,8 @@ int main()
     while (true)
     {   
         int total = 0;
-        cout << "Please allocate your items: \n";
+        cout << "Please allocate your items below.\n";
+        cout << "Except for water and food, each item can only be chosen once (0 or 1).\n";
         
         for (int i = 0; i < 11; i++)
         {
@@ -95,19 +96,78 @@ int main()
                     continue;
                 }
             }
-            else if (i == 5)
+            else if (i == 5){
+                cout << "Book : " ; 
+                cin >> initials[i] ;
                 total += initials[i] * bookWeight;
-            else if (i == 6)
+                if(initials[i] < 0 || initials[i] > 1) //不可為負
+                {
+                    cout << "Invalid input for item " << endl;
+                    i--;
+                    total -= initials[i] * bookWeight;
+                    continue;
+                }
+            }
+            else if (i == 6){
+                cout << "GasMask : " ; 
+                cin >> initials[i] ;
                 total += initials[i] * gasMaskWeight;
-            else if (i == 7)
+                if(initials[i] < 0 || initials[i] > 1) //不可為負
+                {
+                    cout << "Invalid input for item " << endl;
+                    i--;
+                    total -= initials[i] * gasMaskWeight;
+                    continue;
+                }
+            }
+            else if (i == 7){
+                cout << "Map : " ; 
+                cin >> initials[i] ;
                 total += initials[i] * mapWeight;
-            else if (i == 8)
+                if(initials[i] < 0 || initials[i] > 1) //不可為負
+                {
+                    cout << "Invalid input for item " << endl;
+                    i--;
+                    total -= initials[i] * mapWeight;
+                    continue;
+                }
+            }
+            else if (i == 8){
+                cout << "Saxophone : " ; 
+                cin >> initials[i] ;
                 total += initials[i] * saxophoneWeight;
-            else if (i == 9)
+                if(initials[i] < 0 || initials[i] > 1) //不可為負
+                {
+                    cout << "Invalid input for item " << endl;
+                    i--;
+                    total -= initials[i] * saxophoneWeight;
+                    continue;
+                }
+            }
+            else if (i == 9){
+                cout << "Radio : " ;
+                cin >> initials[i] ;
                 total += initials[i] * radioWeight;
-            else if (i == 10)
+                if(initials[i] < 0 || initials[i] > 1) //不可為負
+                {
+                    cout << "Invalid input for item " << endl;
+                    i--;
+                    total -= initials[i] * radioWeight;
+                    continue;
+                }
+            }
+            else if (i == 10){
+                cout << "MedKit : " ; 
+                cin >> initials[i] ;
                 total += initials[i] * medkitWeight;
-
+                if(initials[i] < 0 || initials[i] > 1) //不可為負
+                {
+                    cout << "Invalid input for item " << endl;
+                    i--;
+                    total -= initials[i] * medkitWeight;
+                    continue;
+                }
+            }
             else if (total > packageCapacity)
             {
                 cout << "Allocation exceeds capacity. Please reallocate.\n"; 
