@@ -233,21 +233,3 @@ int main()
             }
     }
 }
-
-
-void suddenEvent1StrangeBox(Character p){
-    cout << "「夜裡，我們聽到奇怪的腳步聲。今天早上，我們發現門外多了一個皮箱，但是上面沒有任何的地址和姓名。我們應該打開它嗎?」" << "\n";
-    cout << "輸入y : 打開， n : 不打開" << "\n";
-    string yesOrNo;
-    cin >> yesOrNo;
-    if(yesOrNo == "y"){
-        cout << "「裡面是一瓶水，我們便打開喝下去了。本來以為我們很幸運，沒想到這瓶水似乎遭受到汙染。大家過沒多久便開始上吐下瀉，非常難受。」" << "\n";
-        p.thirstChange(-20);
-        p.hungerChange(-10);
-        cout << 
-    }
-    if(yesOrNo == "n"){
-        cout << "「我們害怕裡面藏了輻射物質或是炸彈，便把整個皮箱丟掉了。」" << "\n";
-    }
-
-}

@@ -1,5 +1,5 @@
-#include <string>
 #include <iostream>
+#include <string>
 #include <vector>
 #include <cstdlib> 
 #include <ctime>   
@@ -28,3 +28,21 @@ class ExpeditionSystem
         void resolveReturn(Package& mainPackage, Character& cindy, Character& chris);
         string getExpeditionName() {return explorerName;};
 };
+
+
+// 突發事件
+class SuddenEvent{
+protected:
+    string title;
+    string content;
+public:
+    SuddenEvent(string t, string c) : title(t), content(c){}
+    virtual ~SuddenEvent();
+    void showEvent();
+    void makeChoice(char choice, Character& player, Package& bag, int currentDay);
+    virtual void chooseYes(Character& player, Package& bag, int currentDay) = 0;
+    virtual void chooseNo(Character& player, Package& bag, int currentDay) = 0;
+};
+
+
+
