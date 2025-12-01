@@ -155,3 +155,7 @@ void Food::use(Character& target, int quantity)
 {
     target.eatFood(quantity);
 }
+
+void Medkit::use(Character& target, int quantity){ // 承毅
+    target.recoveryFull();
+}

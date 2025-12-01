@@ -6,6 +6,10 @@ using namespace std;
 
 int main()
 {
+
+    srand(time(0)); // 設定隨機種子
+
+
     cout << "Welcome to the survival game!\n";
     cout << "You have 15 days to keep  at least one of your characters alive.\n";
     cout << "Below are the initial endowments.\n";
@@ -181,9 +185,11 @@ int main()
                       initials[6], initials[7], initials[8], initials[9], initials[10]);
 
     
-    int days = 1;
+   
     Cindy cindy;
     Chris chris;
+
+
 
     
 
@@ -195,8 +201,48 @@ int main()
     
     ExpeditionSystem myExpedition;
 
+    int days = 1;
+
+
     while(days <= 15)
     {
+
+        if(!cindy.isAliveStatus() && !chris.isAliveStatus()){
+            cout << "\n===== GAME OVER =====\n";
+            cout << "所有人都不幸身亡了..." << "\n";
+            return 0;
+        }
+
+
+        cout << "\n========================================\n";
+        cout << " [ Day " << days << " ]\n";
+        cout << "========================================\n";
+
+
+        // 計算本日娛樂精神加成
+        int mentalBonus  = playerPackage.entertainmentMentalBonus();
+        if(mentalBonus > 0){
+            cout << ">>> 娛樂道具發揮作用，本日精神回復 +" << mentalBonus << "\n";
+        }
+
+
+        // ====================
+        // 第三天突發事件：神秘皮箱
+        if(days == 3){
+            MysteryCase event1;
+            event1.showEvent();
+
+
+            char choice;
+            cout << "請輸入決策 (y/n): ";
+            cin >> choice;
+
+
+            event1.makeChoice(choice, cindy, chris, playerPackage, days);
+        }
+        // ====================
+
+
         // 冒險部分
         if (myExpedition.checkReturn()) 
         {
@@ -221,6 +267,11 @@ int main()
         {
             cout << myExpedition.getExpeditionName() << "似乎永遠不會回來了吧...";
         }
+
+        
+
+
+        
 
 
         cout << "Day " << days << ":\n";

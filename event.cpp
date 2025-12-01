@@ -248,32 +248,18 @@ void SuddenEvent::showEvent(){
     cout << "========================================" << "\n";
 }
 
-void SuddenEvent::makeChoice(char choice, Character& player, Package& bag, int currentDay){
+void SuddenEvent::makeChoice(char choice, Character& cindy, Character& chris, Package& bag, int currentDay){
     if(choice == 'y' || choice == 'Y'){
-        cout << "\n[你選擇了 打勾 (Yes)]\n";
-        chooseYes(player, bag, currentDay);
+        cout << "\n[你們選擇了 打勾 (Yes)]\n";
+        chooseYes(cindy, chris, bag, currentDay);
     }
     else{
-        cout << "\n[你選擇了 打叉 (No)]\n";
-        chooseNo(player, bag, currentDay);
+        cout << "\n[你們選擇了 打叉 (No)]\n";
+        chooseNo(cindy, chris, bag, currentDay);
     }
 }
 
 
-// 突發事件一：神秘皮箱
-class MysteryCase : public SuddenEvent{
-public:
-    MysteryCase() : SuddenEvent("神秘皮箱", "「夜裡，我們聽到奇怪的腳步聲。今天早上，我們發現門外多了一個皮箱，但是上面沒有任何的地址和姓名。我們應該打開它嗎?」"){}
-    void chooseYes(Character& player, Package& bag, int currentDay) override{
-        cout << "「裡面是一瓶水，我們便打開喝下去了。本來以為我們很幸運，沒想到這瓶水似乎遭受到汙染。大家過沒多久便開始上吐下瀉，非常難受。」" << "\n";
-        cout << "(所有人 飢渴 -20 飢餓 -10)" << "\n";
-        player.thirstChange(-20);
-        player.hungerChange(-10);
-    }
-    void chooseNo(Character& player, Package& bag, int currentDay) override{
-        cout << "「我們害怕裡面藏了輻射物質或是炸彈，便把整個皮箱丟掉了。」" << "\n";
-    }
-};
 
 
 
