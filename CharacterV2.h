@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 using namespace std;
 
 class Character{
@@ -20,9 +21,7 @@ protected:
     string getStatus(int value, string type);                
 
 public:
-    Character(const string& n, int waterCons, int foodCons, int spiritCons)
-         : name(n), dailyWaterConsumed(waterCons), dailyFoodConsumed(foodCons), dailySpiritConsumed(spiritCons), 
-           bottleOfWaterRecoveryAmount(30), cansOfFoodRecoveryAmount(10){}
+    Character(const string& n, int waterCons, int foodCons, int spiritCons);
     
     
     virtual ~Character();

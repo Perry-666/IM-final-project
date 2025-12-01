@@ -65,6 +65,7 @@ int Package::showItemQuantity(string itemName)
             return items[i]->getQuantity();
         }
     }
+    return 0;
 }
 
 void Package::deleteItem(string delName, int q)

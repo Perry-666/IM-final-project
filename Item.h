@@ -3,6 +3,8 @@
 #include <vector>
 #include "CharacterV2.h"
 using namespace std;
+
+
 const int waterWeight = 4;
 const int foodWeight = 2;
 const int axeWeight = 8;

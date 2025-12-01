@@ -36,7 +36,7 @@ protected:
     string title;
     string content;
 public:
-    SuddenEvent(string t, string c) : title(t), content(c){};
+    SuddenEvent(string t, string c);
     virtual ~SuddenEvent();
     void showEvent();
     void makeChoice(char choice, Character& cindy, Character& chris, Package& bag, int currentDay);
