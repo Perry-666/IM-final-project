@@ -45,4 +45,4 @@ public:
 };
 
 
-
+int cretureDay = 4; // 突發事件5:恐怖生物停留日期計數

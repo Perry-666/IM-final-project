@@ -196,7 +196,16 @@ int main()
     ExpeditionSystem myExpedition;
 
     while(days <= 15)
-    {
+    {   
+        if (cretureDay != 4 && cretureDay > 0) // 可能觸發突發事件5:恐怖生物停留日期計數
+        {
+            cout << "這隻變異大蟑螂還在附近徘徊，我們必須小心應對。" << "\n";
+            chris.mentalChange(-10);
+            cindy.mentalChange(-10);
+            cout << "(精神 -10)" << "\n";
+            cretureDay--;
+        }
+
         // 冒險部分
         if (myExpedition.checkReturn()) 
         {
