@@ -163,7 +163,7 @@ class Medkit : public Item
     private:
         
     public:
-        Medkit (const string & n ,int q)
+        Medkit(const string & n ,int q)
                 : Item (n, medkitWeight, q, true) {}
         void use(Character& target, int quantity) override;
 };
