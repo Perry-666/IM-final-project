@@ -297,7 +297,7 @@ public:
         }
         else{
             cout << "這隻變異大蟑螂居然賴著不走，我們只好躲開它生活，快發瘋了。" << "\n";
-            player.mentalChange(-10);
+            
             cout << "(精神 -10)" << "\n";
             cretureDay--;
         }   
@@ -315,6 +315,6 @@ public:
         player.mentalChange(5);
     }
     void chooseNo(Character& player, Package& bag, int currentDay) override{
-        cout << "「我們決定不去理會這個神秘的訊號，專注於我們的生存。」" << "\n";
-    }
+        cout << "「收音機突然又有訊號了，似乎明天軍方準備要來救出我們，苦日子終於要結束了。」" << "\n";
+    }   
 };
