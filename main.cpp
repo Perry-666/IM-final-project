@@ -198,12 +198,12 @@ int main()
     while(days <= 15)
     {   
         // 突發事件5:恐怖生物
-        if (cretureDay != 4 && cretureDay > 0) {    
+        if (creatureDay != 4 && creatureDay > 0) {    
             cout << "這生物還在附近徘徊，我們必須小心應對。" << "\n";
             cout << "(精神 -10)" << "\n";
             cindy.mentalChange(-10);
             chris.mentalChange(-10);
-            cretureDay--;
+            creatureDay--;
         };
 
         // 突發事件6:無線電訊號

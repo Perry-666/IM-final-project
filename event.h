@@ -66,7 +66,7 @@ public:
 };
 
 
-int cretureDay = 4; // 突發事件5:恐怖生物停留日期計數
+int creatureDay = 4; // 突發事件5:恐怖生物停留日期計數
 //突發事件5
 class HorrificCreature : public SuddenEvent{ 
 public:
@@ -90,7 +90,7 @@ public:
             cout << "(精神 -10)" << "\n";
             cindy.mentalChange(-10);
             chris.mentalChange(-10);
-            cretureDay--;
+            creatureDay--;
         }   
     }
 };
