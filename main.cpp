@@ -9,7 +9,7 @@ int main()
 
     srand(time(0)); // 設定隨機種子
 
-v   cout << "\n================ GAME START ================\n";
+    cout << "\n================ GAME START ================\n";
     cout << "Welcome to the survival game!\n";
     cout << "You have 15 days to keep  at least one of your characters alive.\n";
     cout << "Below are the initial endowments.\n";
