@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstdlib> 
 #include <ctime> 
+#include <iomanip>
 using namespace std;
 
 
@@ -102,19 +103,24 @@ void Character::eatFood(int cans){
     if(hunger > 100) hunger = 100; 
 }
 void Character::showStatus(){
-    cout << "狀態 [" << name << "] :";
+    cout << "+--------------------------------------+" << "\n";
+    cout << "| 狀態 [" << left << setw(29) << name << "] |" << "\n"; // left靠左對齊
+    
     if(!isAlive){
-        cout << "(已死亡 💀)";
+        cout << "|             (已死亡 💀)              |" << "\n";
     }
     else if(isSick){
-        cout << " (生病中 😷 - 第" << sickDays << "天)";
+        cout << "| (生病中 😷 - 第 " << sickDays << " 天)              |" << "\n";
     }
-    cout << "\n";
-    cout << ">------------<" << "\n";
-    cout << "飢渴 : " << thirst << " (" << getStatus(thirst, "water") << ")" << "\n";
-    cout << "飢餓 : " << hunger << " (" << getStatus(hunger, "food") << ")" << "\n";
-    cout << "精神 : " << mental << " (" << getStatus(mental, "spirit") << ")" << "\n";
-    cout << ">------------<" << "\n";
+    
+    if(isAlive) {
+        cout << "|--------------------------------------|" << "\n";
+        // setw(3) 預留3位數空間給數值，這樣不會因為數值位數不同而歪掉
+        cout << "| 飢渴 : " << setw(3) << thirst << " (" << setw(6) << getStatus(thirst, "water") << ")               |\n";
+        cout << "| 飢餓 : " << setw(3) << hunger << " (" << setw(6) << getStatus(hunger, "food") << ")               |\n";
+        cout << "| 精神 : " << setw(3) << mental << " (" << setw(6) << getStatus(mental, "spirit") << ")               |\n";
+    }
+    cout << "+--------------------------------------+" << "\n";
 }
 bool Character::isSickStatus() const{
     return isSick;
