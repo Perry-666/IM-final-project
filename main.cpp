@@ -197,30 +197,26 @@ int main()
 
     while(days <= 15)
     {   
-        // 突發事件5:恐怖生物
-        if (creatureDay != 4 && creatureDay > 0) {    
-            cout << "這生物還在附近徘徊，我們必須小心應對。" << "\n";
-            cout << "(精神 -10)" << "\n";
-            cindy.mentalChange(-10);
-            chris.mentalChange(-10);
-            creatureDay--;
-        };
 
-        // 突發事件6:無線電訊號
-        if (days == 5) {
-            RadioSignal event2;
-            event2.showEvent();
-            char choice = 'y'; // 預設選擇yes
-            event2.makeChoice(choice, cindy, chris, playerPackage, days);
-            cout << "----------------------------------------" << "\n";
+        if(!cindy.isAliveStatus() && !chris.isAliveStatus()){
+            cout << "\n===== GAME OVER =====\n";
+            cout << "所有人都不幸身亡了..." << "\n";
+            return 0;
         }
-        else if (days == 14) {
-            RadioSignal event2;
-            event2.showEvent();
-            char choice = 'n'; // 預設選擇no
-            event2.makeChoice(choice, cindy, chris, playerPackage, days);
-            cout << "----------------------------------------" << "\n";
+
+
+        cout << "\n========================================\n";
+        cout << " [ Day " << days << " ]\n";
+        cout << "========================================\n";
+
+
+        // 計算本日娛樂精神加成
+        int mentalBonus  = playerPackage.entertainmentMentalBonus();
+        if(mentalBonus > 0){
+            cout << ">>> 娛樂道具發揮作用，本日精神回復 +" << mentalBonus << "\n";
         }
+
+        
 
         // 冒險部分
         if (myExpedition.checkReturn()) 
@@ -360,6 +356,32 @@ int main()
             cout << "----------------------------------------" << "\n";
         }
         // ====================
+
+
+        // 突發事件5:恐怖生物
+        if (creatureDay != 4 && creatureDay > 0) {    
+            cout << "這生物還在附近徘徊，我們必須小心應對。" << "\n";
+            cout << "(精神 -10)" << "\n";
+            cindy.mentalChange(-10);
+            chris.mentalChange(-10);
+            creatureDay--;
+        };
+
+        // 突發事件6:無線電訊號
+        if (days == 5) {
+            RadioSignal event2;
+            event2.showEvent();
+            char choice = 'y'; // 預設選擇yes
+            event2.makeChoice(choice, cindy, chris, playerPackage, days);
+            cout << "----------------------------------------" << "\n";
+        }
+        else if (days == 14) {
+            RadioSignal event2;
+            event2.showEvent();
+            char choice = 'n'; // 預設選擇no
+            event2.makeChoice(choice, cindy, chris, playerPackage, days);
+            cout << "----------------------------------------" << "\n";
+        }
         
 
         // --- 玩家決策 (如果沒人在外面並且兩人都活著，可以派人) ---
