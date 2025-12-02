@@ -65,6 +65,7 @@ int Package::showItemQuantity(string itemName)
             return items[i]->getQuantity();
         }
     }
+    return 0;
 }
 
 void Package::deleteItem(string delName, int q)
@@ -154,4 +155,8 @@ void Water::use(Character& target, int quantity)
 void Food::use(Character& target, int quantity)
 {
     target.eatFood(quantity);
+}
+
+void Medkit::use(Character& target, int quantity){ // 承毅
+    target.recoveryFull();
 }

@@ -6,23 +6,28 @@ using namespace std;
 
 int main()
 {
+
+    srand(time(0)); // 設定隨機種子
+
+    cout << "\n================ GAME START ================\n";
     cout << "Welcome to the survival game!\n";
     cout << "You have 15 days to keep  at least one of your characters alive.\n";
     cout << "Below are the initial endowments.\n";
     cout << "Please refer to the table of the share of each item.\n";
     cout << "Allocate them wisely, the maximum capacity is 100.\n";
+    cout << "----------------------------------------" << "\n";
 
-    cout << "Water"<< waterWeight <<endl;
-    cout << "Food" << foodWeight << endl;
-    cout << "Axe" << axeWeight << endl;
-    cout << "Pistol" << pistolWeight << endl;
-    cout << "Game" << gameWeight << endl; //精神
-    cout << "Book" << bookWeight << endl; //精神
-    cout << "GasMask" << gasMaskWeight << endl;
-    cout << "Map" << mapWeight << endl;
-    cout << "Saxophone" << saxophoneWeight << endl; //精神
-    cout << "Radio" << radioWeight << endl;
-    cout << "medKit" << medkitWeight << endl; //生病
+    cout << "Water: "<< waterWeight <<endl;
+    cout << "Food: " << foodWeight << endl;
+    cout << "Axe: " << axeWeight << endl;
+    cout << "Pistol: " << pistolWeight << endl;
+    cout << "Game: " << gameWeight << endl; //精神
+    cout << "Book: " << bookWeight << endl; //精神
+    cout << "GasMask: " << gasMaskWeight << endl;
+    cout << "Map: " << mapWeight << endl;
+    cout << "Saxophone: " << saxophoneWeight << endl; //精神
+    cout << "Radio: " << radioWeight << endl;
+    cout << "medKit: " << medkitWeight << endl; //生病
 
     int initials[11] = {0};
 
@@ -181,31 +186,17 @@ int main()
                       initials[6], initials[7], initials[8], initials[9], initials[10]);
 
     
-    int days = 1;
+   
     Cindy cindy;
     Chris chris;
-
-    
-
-    /*
-    int bonus = playerPackage.entertainmentMentalBonus();
-    cindy.passDay(bonus);
-    chris.passDay(bonus);
-    */
-    
     ExpeditionSystem myExpedition;
 
-    while(days <= 15)
-    {   
-        if (cretureDay != 4 && cretureDay > 0) // 可能觸發突發事件5:恐怖生物停留日期計數
-        {
-            cout << "這隻變異大蟑螂還在附近徘徊，我們必須小心應對。" << "\n";
-            chris.mentalChange(-10);
-            cindy.mentalChange(-10);
-            cout << "(精神 -10)" << "\n";
-            cretureDay--;
-        }
 
+    int days = 1;
+
+
+    while(days <= 15)
+    {
         // 冒險部分
         if (myExpedition.checkReturn()) 
         {
@@ -232,33 +223,125 @@ int main()
         }
 
 
-        cout << "Day " << days << ":\n";
-        cindy.isAliveStatus() ? cout << "Cindy is alive.\n" : cout << "Cindy has perished.\n";
-        
-        if(cindy.isInTheWild)
-        {
-            cout << "Cindy目前正在外面探險";
+        // Cindy回合
+        if(cindy.isAliveStatus()){
+            if(cindy.isInTheWild){
+                cout << ">> Cindy目前正在外面探險" << "\n";
+            }
+            else{
+                cindy.showStatus();
+                if(cindy.isSickStatus()){ // 生病檢查
+                    int kits = playerPackage.showItemQuantity("medKit");
+                    if(kits > 0){
+                        cout << "!!! Cindy 生病了 (背包擁有 MedKit:" << kits << ") !!!\n";
+                        cout << "要使用急救包醫治嗎? (y/n): ";
+                        char choice;
+                        cin >> choice;
+                        if(choice == 'y' || choice == 'Y') {
+                            playerPackage.useItem("medkit", 1, cindy);
+                            cout << ">> Cindy 使用了急救包，恢復健康！\n";
+                        }
+                    }
+                    else{
+                        cout << "!!! Cindy 生病了，但已無急救包可用 (若持續 3 天將死亡)。\n";
+                    }
+                }
+                // 補給
+                cout << "分配給 Cindy -> 食物: ";
+                int f;
+                cin >> f;
+                cout << "             -> 水: ";
+                int w;
+                cin >> w;
+                if(f > 0){
+                    playerPackage.useItem("can", f, cindy);
+                }
+                if(w > 0){
+                    playerPackage.useItem("bottled water", w, cindy);
+                }
+
+
+                cindy.passDay(mentalBonus);
+            }
         }
-        else
-        {
-            cindy.showStatus();
-            cindy.passDay();
+        else{
+            cout << ">> Cindy 已死亡。\n";
+        }
+        
+
+        cout << "----------------------------------------\n";
+
+
+        // Chris回合
+        if(chris.isAliveStatus()){
+            if(chris.isInTheWild){
+                cout << ">> Chris目前正在外面探險" << "\n";
+            }
+            else{
+                chris.showStatus();
+                if(chris.isSickStatus()){ // 生病檢查
+                    int kits = playerPackage.showItemQuantity("medKit");
+                    if(kits > 0){
+                        cout << "!!! Chris 生病了 (背包擁有 MedKit:" << kits << ") !!!\n";
+                        cout << "要使用急救包醫治嗎? (y/n): ";
+                        char choice;
+                        cin >> choice;
+                        if(choice == 'y' || choice == 'Y') {
+                            playerPackage.useItem("medkit", 1, chris);
+                            cout << ">> Chris 使用了急救包，恢復健康！\n";
+                        }
+                    }
+                    else{
+                        cout << "!!! Chris 生病了，但已無急救包可用 (若持續 3 天將死亡)。\n";
+                    }
+                }
+                // 補給
+                cout << "分配給 Chris -> 食物: ";
+                int f;
+                cin >> f;
+                cout << "             -> 水: ";
+                int w;
+                cin >> w;
+                if(f > 0){
+                    playerPackage.useItem("can", f, chris);
+                }
+                if(w > 0){
+                    playerPackage.useItem("bottled water", w, chris);
+                }
+
+
+                chris.passDay(mentalBonus);
+            }
+        }
+        else{
+            cout << ">> Chris 已死亡。\n";
         }
 
-        int feedAmount, waterAmount;
-        cin >> feedAmount >> waterAmount;
-        cindy.eatFood(feedAmount);
-        cindy.drinkWater(waterAmount);
-        
 
-        cout << "this day ends\n";
-        cout << "-----------------------\n";
-        days++;
+        // ====================
+        // 第三天突發事件：神秘皮箱
+        if(days == 3){
+            MysteryCase event1;
+            event1.showEvent();
+
+
+            char choice;
+            cout << "請輸入決策 (y/n): ";
+            cin >> choice;
+
+
+            event1.makeChoice(choice, cindy, chris, playerPackage, days);
+
+            cout << "----------------------------------------" << "\n";
+        }
+        // ====================
+        
 
         // --- 玩家決策 (如果沒人在外面並且兩人都活著，可以派人) ---
         if (!myExpedition.isExpeditionActive() && cindy.isAliveStatus() && chris.isAliveStatus() 
             && !cindy.isInTheWild && !chris.isInTheWild && days >= 5 && days <= 10 && myExpedition.hadExpedition == false)
         {
+            cout << "----------------------------------------" << endl;
             cout << "現在避難所全員都在。" << endl;
             cout << "要派人出去探險嗎嗎？ (y:是 / n:否): ";
             char choice;
@@ -300,5 +383,26 @@ int main()
             {
                 myExpedition.updateDaily(chris);;
             }
+
+
+        cout << "this day ends\n";
+        cout << "------------------------------\n";
+        days++;
     }
+
+
+    cout << "\n========================================\n";
+
+    
+    if(cindy.isAliveStatus() || chris.isAliveStatus()){
+        cout << "恭喜！至少有一名倖存者活過了 15 天！\n";
+        cout << ">> VICTORY <<\n";
+    } 
+    else{
+        cout << "很遺憾，所有人都未能倖存...\n";
+        cout << ">> DEFEAT <<\n";
+    }
+
+
+    return 0;
 }
