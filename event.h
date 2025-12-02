@@ -67,3 +67,45 @@ public:
 
 
 int cretureDay = 4; // 突發事件5:恐怖生物停留日期計數
+//突發事件5
+class HorrificCreature : public SuddenEvent{ 
+public:
+    HorrificCreature() : SuddenEvent("恐怖生物", "「角落有動靜!我們在地下室附近發現了一個奇怪的生物。它有著發光的眼睛和許多觸角，似乎在尋找食物。」"){}
+    void chooseYes(Character& cindy, Character& chris, Package& bag, int currentDay) override{  //things eaten 
+        cout << "「竟然是變異大蟑螂，還把我們的東西給吃了，還好它吃完之後就溜去別的地方了。我們還沒看過這麼大隻的蟑螂，真是噁心。」" << "\n";
+        if(bag.showItemQuantity("book") == 1){
+            bag.deleteItem("book", 1);
+            cout << "(損失: 1x書本)" << "\n";
+        }
+        else if(bag.showItemQuantity("map") == 1){
+            bag.deleteItem("map", 1);
+            cout << "(損失: 1x地圖)" << "\n";
+        }
+        else if(bag.showItemQuantity("game") == 1){
+            bag.deleteItem("game", 1);
+            cout << "(損失: 1x遊戲)" << "\n";
+        }
+        else{
+            cout << "這隻變異大蟑螂居然賴著不走，我們只好躲開它生活，快發瘋了。" << "\n";
+            cout << "(精神 -10)" << "\n";
+            cindy.mentalChange(-10);
+            chris.mentalChange(-10);
+            cretureDay--;
+        }   
+    }
+};
+
+//突發事件6
+class RadioSignal : public SuddenEvent{ 
+public:
+    RadioSignal() : SuddenEvent("無線電訊號", "「收音機發出聲音了! 裡頭似乎傳出軍方無線電的對話內容，說是明天會在附近發放一些物資。」"){}
+    void chooseYes(Character& cindy, Character& chris, Package& bag, int currentDay) override{  //mental +5
+        cout << "「解出來那組密碼了，原來是經緯度座標，我們出去看看好了。」" << "\n";
+        cout << "(精神 +5)" << "\n";
+        cindy.mentalChange(5);
+        chris.mentalChange(5);
+    }
+    void chooseNo(Character& cindy, Character& chris, Package& bag, int currentDay) override{
+        cout << "「收音機突然又有訊號了，似乎明天軍方準備要來救出我們，苦日子終於要結束了。」" << "\n";
+    }   
+};

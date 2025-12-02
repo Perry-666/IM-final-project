@@ -196,7 +196,32 @@ int main()
 
 
     while(days <= 15)
-    {
+    {   
+        // 突發事件5:恐怖生物
+        if (cretureDay != 4 && cretureDay > 0) {    
+            cout << "這生物還在附近徘徊，我們必須小心應對。" << "\n";
+            cout << "(精神 -10)" << "\n";
+            cindy.mentalChange(-10);
+            chris.mentalChange(-10);
+            cretureDay--;
+        };
+
+        // 突發事件6:無線電訊號
+        if (days == 5) {
+            RadioSignal event2;
+            event2.showEvent();
+            char choice = 'y'; // 預設選擇yes
+            event2.makeChoice(choice, cindy, chris, playerPackage, days);
+            cout << "----------------------------------------" << "\n";
+        }
+        else if (days == 14) {
+            RadioSignal event2;
+            event2.showEvent();
+            char choice = 'n'; // 預設選擇no
+            event2.makeChoice(choice, cindy, chris, playerPackage, days);
+            cout << "----------------------------------------" << "\n";
+        }
+
         // 冒險部分
         if (myExpedition.checkReturn()) 
         {
