@@ -193,7 +193,11 @@ int main()
 
 
     int days = 1;
-
+    
+    // 秉駪
+    int event2Day = rand() % 2 + 3; // 突發事件開始日 (3-4)
+    int event3Day = rand() % 2 + 6; // 突發事件開始日 (6-7)
+    int event4Day = rand() % 2 + 8; // 突發事件開始日 (8-9)
 
     while(days <= 15)
     {   
@@ -363,6 +367,49 @@ int main()
         // ====================
 
 
+        // 第3-4天突發事件：神秘的訪客
+        if(days == event2Day){
+            StrangeVisitor event2;
+            event2.showEvent();
+
+            char choice;
+            cout << "請輸入決策 (y/n): ";
+            cin >> choice;
+
+            event2.makeChoice(choice, cindy, chris, playerPackage, days);
+
+            cout << "----------------------------------------" << "\n";
+        }
+
+        // 第6-7天突發事件：拜訪鄰居
+        if(days == event3Day){
+            StrangeVisitor event3;
+            event3.showEvent();
+
+            char choice;
+            cout << "請輸入決策 (y/n): ";
+            cin >> choice;
+
+            event3.makeChoice(choice, cindy, chris, playerPackage, days);
+
+            cout << "----------------------------------------" << "\n";
+        }
+
+        // 第8-9天突發事件：樓上的噪音
+        if(days == event4Day){
+            NoiseUpstairs event4;
+            event4.showEvent();
+
+            char choice;
+            cout << "請輸入決策 (y/n): ";
+            cin >> choice;
+
+            event4.makeChoice(choice, cindy, chris, playerPackage, days);
+
+            cout << "----------------------------------------" << "\n";
+        }
+
+
         // 突發事件5:恐怖生物
         if (creatureDay != 4 && creatureDay > 0) {    
             cout << "這生物還在附近徘徊，我們必須小心應對。" << "\n";
@@ -373,18 +420,18 @@ int main()
         };
 
         // 突發事件6:無線電訊號
-        if (days == 5) {
-            RadioSignal event2;
-            event2.showEvent();
+        if (days == 5) { // 幫你改成event6
+            RadioSignal event6;
+            event6.showEvent();
             char choice = 'y'; // 預設選擇yes
-            event2.makeChoice(choice, cindy, chris, playerPackage, days);
+            event6.makeChoice(choice, cindy, chris, playerPackage, days);
             cout << "----------------------------------------" << "\n";
         }
         else if (days == 14) {
-            RadioSignal event2;
-            event2.showEvent();
+            RadioSignal event6;
+            event6.showEvent();
             char choice = 'n'; // 預設選擇no
-            event2.makeChoice(choice, cindy, chris, playerPackage, days);
+            event6.makeChoice(choice, cindy, chris, playerPackage, days);
             cout << "----------------------------------------" << "\n";
         }
         
