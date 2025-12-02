@@ -198,11 +198,16 @@ int main()
     while(days <= 15)
     {   
 
+
+        /*
+
         if(!cindy.isAliveStatus() && !chris.isAliveStatus()){
-            cout << "\n===== GAME OVER =====\n";
+            cout << "\n========= GAME OVER =========\n";
             cout << "所有人都不幸身亡了..." << "\n";
             return 0;
         }
+
+        */
 
 
         cout << "\n========================================\n";
@@ -254,12 +259,12 @@ int main()
                 if(cindy.isSickStatus()){ // 生病檢查
                     int kits = playerPackage.showItemQuantity("medKit");
                     if(kits > 0){
-                        cout << "!!! Cindy 生病了 (背包擁有 MedKit:" << kits << ") !!!\n";
+                        cout << "!!! Cindy 生病了 (背包擁有 Medkit:" << kits << ") !!!\n";
                         cout << "要使用急救包醫治嗎? (y/n): ";
                         char choice;
                         cin >> choice;
                         if(choice == 'y' || choice == 'Y') {
-                            playerPackage.useItem("medkit", 1, cindy);
+                            playerPackage.useItem("medKit", 1, cindy);
                             cout << ">> Cindy 使用了急救包，恢復健康！\n";
                         }
                     }
