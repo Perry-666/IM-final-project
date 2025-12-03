@@ -231,7 +231,7 @@ void ExpeditionSystem::resolveReturn(Package& mainPackage, Character& cindy, Cha
     isActive = false;
 }
 
-
+int creatureDay = 4;
 
 /*-------------------------------------------------------------------------------*/
 /*--------------------------------突發事件----------------------------------------*/
@@ -259,4 +259,9 @@ void SuddenEvent::makeChoice(char choice, Character& cindy, Character& chris, Pa
             cout << "\n[你們選擇了 打叉 (No)]\n";
         chooseNo(cindy, chris, bag, currentDay);
     }
+}
+
+SuddenEvent::~SuddenEvent()
+{
+    
 }

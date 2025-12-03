@@ -1,3 +1,6 @@
+#ifndef EVENT_H         
+#define EVENT_H
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -113,7 +116,7 @@ public:
     }
 };
 
-int creatureDay = 4; // 突發事件5:恐怖生物停留日期計數
+extern int creatureDay;
 //突發事件5
 class HorrificCreature : public SuddenEvent{ 
 public:
@@ -156,3 +159,5 @@ public:
         cout << "「收音機突然又有訊號了，似乎明天軍方準備要來救出我們，苦日子終於要結束了。」" << "\n";
     }   
 };
+
+#endif

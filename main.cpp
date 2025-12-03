@@ -178,8 +178,13 @@ int main()
                 cout << "Allocation exceeds capacity. Please reallocate.\n"; 
                 total = 0; //超過總額需重新分配
                 break;
-            }   
+            }
         }
+        if (total <= packageCapacity)
+        {
+            cout << "Allocation successful!\n";
+            break;
+        } 
     }   
 
     Package playerPackage(initials[0], initials[1], initials[2], initials[3], initials[4],initials[5], 
@@ -270,7 +275,7 @@ int main()
                         char choice;
                         cin >> choice;
                         if(choice == 'y' || choice == 'Y') {
-                            playerPackage.useItem("medKit", 1, cindy);
+                            playerPackage.useItem("medkit", 1, cindy);
                             cout << ">> Cindy 使用了急救包，恢復健康！\n";
                         }
                     }
@@ -384,7 +389,7 @@ int main()
 
         // 第6-7天突發事件：拜訪鄰居
         if(days == event3Day){
-            StrangeVisitor event3;
+            VisitNeighbor event3;
             event3.showEvent();
 
             char choice;
@@ -410,7 +415,7 @@ int main()
             cout << "----------------------------------------" << "\n";
         }
 
-
+        
         // 突發事件5:恐怖生物
         if (days == event5Day) {
             if (creatureDay != 4 && creatureDay > 0) {    
