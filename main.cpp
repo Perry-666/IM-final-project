@@ -284,7 +284,7 @@ int main()
                     }
                 }
                 // 補給
-                playerPackage.showItemQuantity();
+                playerPackage.displayItems();
                 cout << "分配給 Cindy -> 水: ";
                 int w;
                 cin >> w;
@@ -331,7 +331,7 @@ int main()
                     }
                 }
                 // 補給
-                playerPackage.showItemQuantity();
+                playerPackage.displayItems();
                 cout << "分配給 Chris -> 水: ";
                 int w;
                 cin >> w;
@@ -354,7 +354,7 @@ int main()
         cindy.passDay(mentalBonus);
         chris.passDay(mentalBonus);
 
-        
+
         // ====================
         // 第1-2天突發事件：神秘皮箱
         if(days == event1Day){
