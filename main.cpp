@@ -284,21 +284,19 @@ int main()
                     }
                 }
                 // 補給
-                cout << "分配給 Cindy -> 食物: ";
-                int f;
-                cin >> f;
-                cout << "             -> 水: ";
+                playerPackage.showItemQuantity();
+                cout << "分配給 Cindy -> 水: ";
                 int w;
                 cin >> w;
-                if(f > 0){
-                    playerPackage.useItem("can", f, cindy);
-                }
+                cout << "             -> 食物: ";
+                int f;
+                cin >> f;
                 if(w > 0){
                     playerPackage.useItem("bottled water", w, cindy);
                 }
-
-
-                cindy.passDay(mentalBonus);
+                if(f > 0){
+                    playerPackage.useItem("can", f, cindy);
+                }
             }
         }
         else{
@@ -333,28 +331,30 @@ int main()
                     }
                 }
                 // 補給
-                cout << "分配給 Chris -> 食物: ";
-                int f;
-                cin >> f;
-                cout << "             -> 水: ";
+                playerPackage.showItemQuantity();
+                cout << "分配給 Chris -> 水: ";
                 int w;
                 cin >> w;
-                if(f > 0){
-                    playerPackage.useItem("can", f, chris);
-                }
+                cout << "             -> 食物: ";
+                int f;
+                cin >> f;
                 if(w > 0){
                     playerPackage.useItem("bottled water", w, chris);
                 }
-
-
-                chris.passDay(mentalBonus);
+                if(f > 0){
+                    playerPackage.useItem("can", f, chris);
+                }
             }
         }
         else{
             cout << ">> Chris 已死亡。\n";
         }
 
+        // 過一天
+        cindy.passDay(mentalBonus);
+        chris.passDay(mentalBonus);
 
+        
         // ====================
         // 第1-2天突發事件：神秘皮箱
         if(days == event1Day){
