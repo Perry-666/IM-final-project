@@ -195,6 +195,7 @@ int main()
     int days = 1;
     
     // 秉駪
+    int event1Day = rand() % 2 + 1; // 突發事件開始日（1-2)
     int event2Day = rand() % 2 + 3; // 突發事件開始日 (3-4)
     int event3Day = rand() % 2 + 6; // 突發事件開始日 (6-7)
     int event4Day = rand() % 2 + 8; // 突發事件開始日 (8-9)
@@ -349,8 +350,8 @@ int main()
 
 
         // ====================
-        // 第三天突發事件：神秘皮箱
-        if(days == 3){
+        // 第1-2天突發事件：神秘皮箱
+        if(days == event1Day){
             MysteryCase event1;
             event1.showEvent();
 
@@ -364,8 +365,7 @@ int main()
 
             cout << "----------------------------------------" << "\n";
         }
-        // ====================
-
+        
 
         // 第3-4天突發事件：神秘的訪客
         if(days == event2Day){
