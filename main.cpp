@@ -162,7 +162,7 @@ int main()
                 }
             }
             else if (i == 10){
-                cout << "MedKit : " ; 
+                cout << "Medkit : " ; 
                 cin >> initials[i] ;
                 total += initials[i] * medkitWeight;
                 if(initials[i] < 0 || initials[i] > 1) //不可為負
@@ -195,10 +195,11 @@ int main()
     int days = 1;
     
     // 秉駪
-    int event1Day = rand() % 2 + 1; // 突發事件開始日（1-2)
+    int event1Day = rand() % 3 + 1; // 突發事件開始日（1-3)
     int event2Day = rand() % 2 + 3; // 突發事件開始日 (3-4)
-    int event3Day = rand() % 2 + 6; // 突發事件開始日 (6-7)
-    int event4Day = rand() % 2 + 8; // 突發事件開始日 (8-9)
+    int event3Day = rand() % 3 + 6; // 突發事件開始日 (6-8)
+    int event4Day = rand() % 3 + 8; // 突發事件開始日 (9-11)
+    int event5Day = rand() % 3 + 11; // 突發事件開始日 (11-13)
 
     while(days <= 15)
     {   
@@ -262,7 +263,7 @@ int main()
             else{
                 cindy.showStatus();
                 if(cindy.isSickStatus()){ // 生病檢查
-                    int kits = playerPackage.showItemQuantity("medKit");
+                    int kits = playerPackage.showItemQuantity("medkit");
                     if(kits > 0){
                         cout << "!!! Cindy 生病了 (背包擁有 Medkit:" << kits << ") !!!\n";
                         cout << "要使用急救包醫治嗎? (y/n): ";
@@ -311,7 +312,7 @@ int main()
             else{
                 chris.showStatus();
                 if(chris.isSickStatus()){ // 生病檢查
-                    int kits = playerPackage.showItemQuantity("medKit");
+                    int kits = playerPackage.showItemQuantity("medkit");
                     if(kits > 0){
                         cout << "!!! Chris 生病了 (背包擁有 MedKit:" << kits << ") !!!\n";
                         cout << "要使用急救包醫治嗎? (y/n): ";
@@ -411,13 +412,15 @@ int main()
 
 
         // 突發事件5:恐怖生物
-        if (creatureDay != 4 && creatureDay > 0) {    
-            cout << "這生物還在附近徘徊，我們必須小心應對。" << "\n";
-            cout << "(精神 -10)" << "\n";
-            cindy.mentalChange(-10);
-            chris.mentalChange(-10);
-            creatureDay--;
-        };
+        if (days == event5Day) {
+            if (creatureDay != 4 && creatureDay > 0) {    
+                cout << "這生物還在附近徘徊，我們必須小心應對。" << "\n";
+                cout << "(精神 -10)" << "\n";
+                cindy.mentalChange(-10);
+                chris.mentalChange(-10);
+                creatureDay--;
+            }
+        }
 
         // 突發事件6:無線電訊號
         if (days == 5) { // 幫你改成event6
