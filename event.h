@@ -1,3 +1,6 @@
+#ifndef EVENT_H         
+#define EVENT_H
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -38,8 +41,8 @@ protected:
 public:
     SuddenEvent(string t, string c);
     virtual ~SuddenEvent();
-    void showEvent();
-    void makeChoice(char choice, Character& cindy, Character& chris, Package& bag, int currentDay);
+    virtual void showEvent();
+    virtual void makeChoice(char choice, Character& cindy, Character& chris, Package& bag, int currentDay);
     virtual void chooseYes(Character& cindy, Character& chris, Package& bag, int currentDay) = 0;
     virtual void chooseNo(Character& cindy, Character& chris, Package& bag, int currentDay) = 0;
 };
@@ -65,8 +68,55 @@ public:
     }
 };
 
+// 突發事件二：神秘的訪客
+class StrangeVisitor : public SuddenEvent{  // 秉駪
+public:
+    StrangeVisitor() : SuddenEvent("神秘的訪客", "「不知道是誰這麼沒禮貌，大清早便猛敲我們避難所的門，把所有人都吵醒了。他們十分堅持，已經連續敲了五分鐘，我們應該開門嗎?」"){};
+    void chooseYes(Character& cindy, Character& chris, Package& bag, int currentDay) override{
+        cout << "「一群戴著防毒面具，拿著高端設備的旅行者們給了我們兩瓶水，我們還來不及感謝他們，他們便轉身離開了。」" << "\n";
+        cout << "(獲得: 2x水)" << "\n";
+        bag.addItem("bottled water", 2);
+    }
+    void chooseNo(Character& cindy, Character& chris, Package& bag, int currentDay) override{
+        cout << "「開門感覺太危險了，我們一直等到他們停止敲門，過了好久才敢出來。」" << "\n";
+    }
+};
 
-int creatureDay = 4; // 突發事件5:恐怖生物停留日期計數
+// 突發事件三:拜訪鄰居  
+class VisitNeighbor : public SuddenEvent{  // 秉駪
+public:
+    VisitNeighbor() : SuddenEvent("拜訪鄰居", "「我們的物資越來越少了，再這樣下去不是辦法。我們知道一個鄰居避難所的暗門是壞的，而且我們更加強壯。我們應該拜訪他們嗎?」"){};
+    void chooseYes(Character& cindy, Character& chris, Package& bag, int currentDay) override{
+        cout << "「雖然我們有了更多物資，但是因為某些原因大家心裡感覺並不好，我們永遠別再提這件事了。」" << "\n";
+        cout << "(獲得: 4x罐頭)" << "\n";
+        bag.addItem("can", 4);
+    }
+    void chooseNo(Character& cindy, Character& chris, Package& bag, int currentDay) override{
+        cout << "「有些事情我們不管怎樣是不會去做的，搶奪比我們弱小的鄰居就是其中之一。」" << "\n";
+    }
+};
+
+// 突發事件四:樓上的噪音  
+class NoiseUpstairs : public SuddenEvent{  // 秉駪
+public:
+    NoiseUpstairs() : SuddenEvent("樓上的噪音", "「我們聽到樓上一直傳來翻箱倒櫃的聲音，不過之前樓上應該都沒有人居住。我們應該上去看看嗎?」"){};
+    void chooseYes(Character& cindy, Character& chris, Package& bag, int currentDay) override{
+        if(bag.showItemQuantity("axe") > 0 || bag.showItemQuantity("pistol") > 0){
+            cout << "「上面是一群劫匪似乎想把我們的避難所挖個底朝天，幸好有武器把他們趕跑了。」" << "\n";
+        }
+        else{
+            cout << "「沒有武器果然有點麻煩，不幸敗下陣來，幸好他們願意開出條件，讓我們捨棄一點物資來保全我們的小命。」" << "\n";
+            cout << "(損失: 2x水, 4x罐頭)" << "\n";
+            bag.deleteItem("bottled water", 2);
+            bag.deleteItem("can", 4);
+        }
+    }
+    void chooseNo(Character& cindy, Character& chris, Package& bag, int currentDay) override{
+        cout << "「還是待在避難所安全點，什麼事都不要做最好。」" << "\n";
+    }
+};
+
+extern int creatureDay;
 //突發事件5
 class HorrificCreature : public SuddenEvent{ 
 public:
@@ -93,12 +143,29 @@ public:
             creatureDay--;
         }   
     }
+    void chooseNo(Character& cindy, Character& chris, Package& bag, int currentDay) override{
+    }
 };
 
 //突發事件6
 class RadioSignal : public SuddenEvent{ 
 public:
-    RadioSignal() : SuddenEvent("無線電訊號", "「收音機發出聲音了! 裡頭似乎傳出軍方無線電的對話內容，說是明天會在附近發放一些物資。」"){}
+    RadioSignal() : SuddenEvent("無線電訊號", "「收音機發出聲音了! 裡頭似乎傳出軍方無線電的對話內容，說是明天會在附近發放一些物資。」") {}
+    void showEvent() override{
+    cout << "========================================" << "\n";
+    cout << " [突發事件: " << title << "] " << "\n";
+    cout << content << "\n";
+    cout << "----------------------------------------" << "\n";
+    cout << "========================================" << "\n";
+    }
+    void makeChoice(char choice, Character& cindy, Character& chris, Package& bag, int currentDay) override{
+        if(choice == 'y' || choice == 'Y'){
+            chooseYes(cindy, chris, bag, currentDay);
+        }
+        else{
+            chooseNo(cindy, chris, bag, currentDay);
+        }
+    }
     void chooseYes(Character& cindy, Character& chris, Package& bag, int currentDay) override{  //mental +5
         cout << "「解出來那組密碼了，原來是經緯度座標，我們出去看看好了。」" << "\n";
         cout << "(精神 +5)" << "\n";
@@ -109,3 +176,5 @@ public:
         cout << "「收音機突然又有訊號了，似乎明天軍方準備要來救出我們，苦日子終於要結束了。」" << "\n";
     }   
 };
+
+#endif

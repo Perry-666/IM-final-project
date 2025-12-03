@@ -1,3 +1,6 @@
+#ifndef CHARACTERV2_H   
+#define CHARACTERV2_H
+
 #include <string>
 #include <iostream>
 using namespace std;
@@ -114,8 +117,7 @@ public:
 
     
 };
-
-
+#endif
 
 
 

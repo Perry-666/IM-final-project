@@ -162,7 +162,7 @@ int main()
                 }
             }
             else if (i == 10){
-                cout << "MedKit : " ; 
+                cout << "Medkit : " ; 
                 cin >> initials[i] ;
                 total += initials[i] * medkitWeight;
                 if(initials[i] < 0 || initials[i] > 1) //不可為負
@@ -178,8 +178,13 @@ int main()
                 cout << "Allocation exceeds capacity. Please reallocate.\n"; 
                 total = 0; //超過總額需重新分配
                 break;
-            }   
+            }
         }
+        if (total <= packageCapacity)
+        {
+            cout << "Allocation successful!\n";
+            break;
+        } 
     }   
 
     Package playerPackage(initials[0], initials[1], initials[2], initials[3], initials[4],initials[5], 
@@ -193,16 +198,27 @@ int main()
 
 
     int days = 1;
-
+    
+    // 秉駪
+    int event1Day = rand() % 3 + 1; // 突發事件開始日（1-3)
+    int event2Day = rand() % 2 + 3; // 突發事件開始日 (3-4)
+    int event3Day = rand() % 3 + 6; // 突發事件開始日 (6-8)
+    int event4Day = rand() % 3 + 8; // 突發事件開始日 (9-11)
+    int event5Day = rand() % 3 + 11; // 突發事件開始日 (11-13)
 
     while(days <= 15)
     {   
 
+
+        /*
+
         if(!cindy.isAliveStatus() && !chris.isAliveStatus()){
-            cout << "\n===== GAME OVER =====\n";
+            cout << "\n========= GAME OVER =========\n";
             cout << "所有人都不幸身亡了..." << "\n";
             return 0;
         }
+
+        */
 
 
         cout << "\n========================================\n";
@@ -252,9 +268,9 @@ int main()
             else{
                 cindy.showStatus();
                 if(cindy.isSickStatus()){ // 生病檢查
-                    int kits = playerPackage.showItemQuantity("medKit");
+                    int kits = playerPackage.showItemQuantity("medkit");
                     if(kits > 0){
-                        cout << "!!! Cindy 生病了 (背包擁有 MedKit:" << kits << ") !!!\n";
+                        cout << "!!! Cindy 生病了 (背包擁有 Medkit:" << kits << ") !!!\n";
                         cout << "要使用急救包醫治嗎? (y/n): ";
                         char choice;
                         cin >> choice;
@@ -268,21 +284,19 @@ int main()
                     }
                 }
                 // 補給
-                cout << "分配給 Cindy -> 食物: ";
-                int f;
-                cin >> f;
-                cout << "             -> 水: ";
+                playerPackage.displayItems();
+                cout << "分配給 Cindy -> 水: ";
                 int w;
                 cin >> w;
-                if(f > 0){
-                    playerPackage.useItem("can", f, cindy);
-                }
+                cout << "             -> 食物: ";
+                int f;
+                cin >> f;
                 if(w > 0){
                     playerPackage.useItem("bottled water", w, cindy);
                 }
-
-
-                cindy.passDay(mentalBonus);
+                if(f > 0){
+                    playerPackage.useItem("can", f, cindy);
+                }
             }
         }
         else{
@@ -301,7 +315,7 @@ int main()
             else{
                 chris.showStatus();
                 if(chris.isSickStatus()){ // 生病檢查
-                    int kits = playerPackage.showItemQuantity("medKit");
+                    int kits = playerPackage.showItemQuantity("medkit");
                     if(kits > 0){
                         cout << "!!! Chris 生病了 (背包擁有 MedKit:" << kits << ") !!!\n";
                         cout << "要使用急救包醫治嗎? (y/n): ";
@@ -317,31 +331,33 @@ int main()
                     }
                 }
                 // 補給
-                cout << "分配給 Chris -> 食物: ";
-                int f;
-                cin >> f;
-                cout << "             -> 水: ";
+                playerPackage.displayItems();
+                cout << "分配給 Chris -> 水: ";
                 int w;
                 cin >> w;
-                if(f > 0){
-                    playerPackage.useItem("can", f, chris);
-                }
+                cout << "             -> 食物: ";
+                int f;
+                cin >> f;
                 if(w > 0){
                     playerPackage.useItem("bottled water", w, chris);
                 }
-
-
-                chris.passDay(mentalBonus);
+                if(f > 0){
+                    playerPackage.useItem("can", f, chris);
+                }
             }
         }
         else{
             cout << ">> Chris 已死亡。\n";
         }
 
+        // 過一天
+        cindy.passDay(mentalBonus);
+        chris.passDay(mentalBonus);
+
 
         // ====================
-        // 第三天突發事件：神秘皮箱
-        if(days == 3){
+        // 第1-2天突發事件：神秘皮箱
+        if(days == event1Day){
             MysteryCase event1;
             event1.showEvent();
 
@@ -355,7 +371,50 @@ int main()
 
             cout << "----------------------------------------" << "\n";
         }
-        // ====================
+
+
+        // 第3-4天突發事件：神秘的訪客
+        if(days == event2Day){
+            StrangeVisitor event2;
+            event2.showEvent();
+
+            char choice;
+            cout << "請輸入決策 (y/n): ";
+            cin >> choice;
+
+            event2.makeChoice(choice, cindy, chris, playerPackage, days);
+
+            cout << "----------------------------------------" << "\n";
+        }
+
+        // 第6-7天突發事件：拜訪鄰居
+        if(days == event3Day){
+            VisitNeighbor event3;
+            event3.showEvent();
+
+            char choice;
+            cout << "請輸入決策 (y/n): ";
+            cin >> choice;
+
+            event3.makeChoice(choice, cindy, chris, playerPackage, days);
+
+            cout << "----------------------------------------" << "\n";
+        }
+
+        // 第8-9天突發事件：樓上的噪音
+        if(days == event4Day){
+            NoiseUpstairs event4;
+            event4.showEvent();
+
+            char choice;
+            cout << "請輸入決策 (y/n): ";
+            cin >> choice;
+
+            event4.makeChoice(choice, cindy, chris, playerPackage, days);
+
+            cout << "----------------------------------------" << "\n";
+        }
+
         
         // 突發事件5:恐怖生物 (可能觸發多次)
         if (creatureDay != 4 && creatureDay > 0) {    
@@ -365,21 +424,39 @@ int main()
             chris.mentalChange(-10);
             creatureDay--;
         };
-
-        // 突發事件6:無線電訊號
-        if (days == 5) {
-            RadioSignal event2;
-            event2.showEvent();
-            char choice = 'y'; // 預設選擇yes
-            event2.makeChoice(choice, cindy, chris, playerPackage, days);
+        // 突發事件5:恐怖生物
+        if (days == event5Day) {
+            HorrificCreature event5;
+            event5.showEvent();
+            if (initials[4] == 1 || initials[5]== 1 || initials[7] == 1) { // 有可供犧牲的物品
+                char choice = 'y'; // 預設選擇yes
+                event5.makeChoice(choice, cindy, chris, playerPackage, days);
+            } else {
+                cout << "沒有可供犧牲的物品，只能選擇面對它。" << "\n";
+                char choice = 'n'; // 預設選擇no
+                event5.makeChoice(choice, cindy, chris, playerPackage, days);
+            }
             cout << "----------------------------------------" << "\n";
         }
+
+        // 突發事件6:無線電訊號
+        if (days == 5) { 
+            if (initials[9] != 0){
+                RadioSignal event6;
+                event6.showEvent();
+                char choice = 'y'; // 預設選擇yes
+                event6.makeChoice(choice, cindy, chris, playerPackage, days);
+                cout << "----------------------------------------" << "\n";
+            }
+        }
         else if (days == 14) {
-            RadioSignal event2;
-            event2.showEvent();
-            char choice = 'n'; // 預設選擇no
-            event2.makeChoice(choice, cindy, chris, playerPackage, days);
-            cout << "----------------------------------------" << "\n";
+            if (initials[9] != 0){
+                RadioSignal event6;
+                event6.showEvent();
+                char choice = 'n'; // 預設選擇no
+                event6.makeChoice(choice, cindy, chris, playerPackage, days);
+                cout << "----------------------------------------" << "\n";
+            }
         }
         
 

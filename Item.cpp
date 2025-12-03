@@ -160,3 +160,46 @@ void Food::use(Character& target, int quantity)
 void Medkit::use(Character& target, int quantity){ // 承毅
     target.recoveryFull();
 }
+
+// ==================== 補上缺少的 use 實作 ====================
+
+void Axe::use(Character& target, int quantity)
+{
+    cout << "斧頭是用來裝備或觸發事件的，無法直接使用。" << endl;
+    // 這裡只是為了滿足編譯器，實際上斧頭邏輯可能在 Event 裡判斷
+}
+
+void Pistol::use(Character& target, int quantity)
+{
+    cout << "手槍是用來裝備或防身的，無法直接使用。" << endl;
+}
+
+void Game::use(Character& target, int quantity)
+{
+    cout << "這是一個娛樂用品，放在背包裡會自動增加精神回復。" << endl;
+}
+
+void Book::use(Character& target, int quantity)
+{
+    cout << "這是一本書，放在背包裡會自動增加精神回復。" << endl;
+}
+
+void GasMask::use(Character& target, int quantity)
+{
+    cout << "防毒面具是用來探索時攜帶的，無法直接使用。" << endl;
+}
+
+void Map::use(Character& target, int quantity)
+{
+    cout << "地圖是用來探索時降低風險的，無法直接使用。" << endl;
+}
+
+void Saxophone::use(Character& target, int quantity)
+{
+    cout << "這是一個樂器，放在背包裡會自動增加精神回復。" << endl;
+}
+
+void Radio::use(Character& target, int quantity)
+{
+    cout << "收音機可能會接收到特定的訊號..." << endl;
+}

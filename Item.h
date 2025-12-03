@@ -1,3 +1,6 @@
+#ifndef ITEM_H          
+#define ITEM_H
+
 #include <string>
 #include <iostream>
 #include <vector>
@@ -18,6 +21,7 @@ const int radioWeight = 5;
 const int medkitWeight = 10;
 const int packageCapacity = 100;
 
+class Item;
 
 class Package
 {
@@ -169,3 +173,5 @@ class Medkit : public Item
                 : Item (n, medkitWeight, q, true) {}
         void use(Character& target, int quantity) override;
 };
+
+#endif
