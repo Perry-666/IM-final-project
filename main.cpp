@@ -200,11 +200,11 @@ int main()
     int days = 1;
     
     // 秉駪
-    int event1Day = rand() % 3 + 1; // 突發事件開始日（1-3)
-    int event2Day = rand() % 2 + 3; // 突發事件開始日 (3-4)
-    int event3Day = rand() % 3 + 6; // 突發事件開始日 (6-8)
-    int event4Day = rand() % 3 + 8; // 突發事件開始日 (9-11)
-    int event5Day = rand() % 3 + 11; // 突發事件開始日 (11-13)
+    int event1Day = rand() % 1 + 2; // 突發事件開始日（2)
+    int event2Day = rand() % 1 + 4; // 突發事件開始日 (4)
+    int event3Day = rand() % 2 + 6; // 突發事件開始日 (6-7)
+    int event4Day = rand() % 2 + 9; // 突發事件開始日 (9-10)
+    int event5Day = rand() % 2 + 12; // 突發事件開始日 (12-13)
 
     while(days <= 15)
     {   

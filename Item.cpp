@@ -1,5 +1,6 @@
-#include <string>
 #include <iostream>
+#include <string>
+#include <iomanip>
 #include "CharacterV2.h"
 #include "Item.h"
 using namespace std;
@@ -92,10 +93,19 @@ void Package::deleteItem(string delName, int q)
 void Package::displayItems()
 {
     cout << "Items in the package:" << endl;
+    cout << "----------------------------------------" << endl;
+
     for (int i = 0; i < 11; ++i) 
     {
-        cout << items[i]->getName() << ": " << items[i]->getQuantity() << endl;
+        cout << left << setw(20) << (items[i]->getName() + ": " + to_string(items[i]->getQuantity()));
+
+        if (i % 2 == 1) {
+            cout << endl;
+        }
     }
+    cout << endl;
+    
+    cout << "----------------------------------------" << endl;
 }
 
 Package::~Package()

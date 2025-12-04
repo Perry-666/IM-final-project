@@ -29,7 +29,7 @@ string Character::getStatus(int value, string type){
 }
 Character::Character(const string& n, int waterCons, int foodCons, int spiritCons)
          : name(n), dailyWaterConsumed(waterCons), dailyFoodConsumed(foodCons), dailySpiritConsumed(spiritCons), 
-           bottleOfWaterRecoveryAmount(35), cansOfFoodRecoveryAmount(10){
+           bottleOfWaterRecoveryAmount(35), cansOfFoodRecoveryAmount(25){
             thirst = 100;
             hunger = 100;
             mental = 100;
@@ -104,7 +104,7 @@ void Character::eatFood(int cans){
 }
 void Character::showStatus(){
     cout << "+--------------------------------------+" << "\n";
-    cout << "| 狀態 [" << left << setw(29) << name << "] |" << "\n"; // left靠左對齊
+    cout << "| 狀態[" << name << "]                         |" << "\n"; // left靠左對齊
     
     if(!isAlive){
         cout << "|             (已死亡 💀)              |" << "\n";
@@ -116,9 +116,9 @@ void Character::showStatus(){
     if(isAlive) {
         cout << "|--------------------------------------|" << "\n";
         // setw(3) 預留3位數空間給數值，這樣不會因為數值位數不同而歪掉
-        cout << "| 飢渴 : " << setw(3) << " (" << setw(6) << getStatus(thirst, "water") << ")               |\n";
-        cout << "| 飢餓 : " << setw(3) << " (" << setw(6) << getStatus(hunger, "food") << ")               |\n";
-        cout << "| 精神 : " << setw(3) << " (" << setw(6) << getStatus(mental, "spirit") << ")               |\n";
+        cout << "| 飢渴 : " << " (" << setw(6) << getStatus(thirst, "water") << ")                      |\n";
+        cout << "| 飢餓 : " << " (" << setw(6) << getStatus(hunger, "food") << ")                      |\n";
+        cout << "| 精神 : " << " (" << setw(6) << getStatus(mental, "spirit") << ")                      |\n";
     }
     cout << "+--------------------------------------+" << "\n";
 }
