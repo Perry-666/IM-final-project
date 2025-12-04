@@ -30,7 +30,7 @@ class Package
         int capacity;
         Item* items[11];
     public:
-        Package (int qWater, int qFood, int qAxe, 
+        Package (string name, int qWater, int qFood, int qAxe, 
         int qPistol, int qGame, int qBook, int qGasMask, int qMap, int qSaxophone, int qRadio, int qMedKit);
         void addItem(string addName, int q);
         void useItem(string useName, int q, Character& character);

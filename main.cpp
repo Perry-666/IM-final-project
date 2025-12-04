@@ -4,6 +4,10 @@
 #include "event.h"
 using namespace std;
 
+
+void pressEnterToContinue();
+
+
 int main()
 {
 
@@ -11,7 +15,8 @@ int main()
 
     cout << "\n================ GAME START ================\n";
     cout << "Welcome to the survival game!\n";
-    cout << "You have 15 days to keep  at least one of your characters alive.\n";
+    cout << "You have 15 days to keep  at least one of your characters alive.";
+    pressEnterToContinue();
     cout << "Below are the initial endowments.\n";
     cout << "Please refer to the table of the share of each item.\n";
     cout << "Allocate them wisely, the maximum capacity is 100.\n";
@@ -183,11 +188,12 @@ int main()
         if (total <= packageCapacity)
         {
             cout << "Allocation successful!\n";
+            pressEnterToContinue();
             break;
         } 
     }   
 
-    Package playerPackage(initials[0], initials[1], initials[2], initials[3], initials[4],initials[5], 
+    Package playerPackage("Player Package", initials[0], initials[1], initials[2], initials[3], initials[4],initials[5], 
                       initials[6], initials[7], initials[8], initials[9], initials[10]);
 
     
@@ -210,15 +216,11 @@ int main()
     {   
 
 
-        /*
-
         if(!cindy.isAliveStatus() && !chris.isAliveStatus()){
             cout << "\n========= GAME OVER =========\n";
             cout << "所有人都不幸身亡了..." << "\n";
             return 0;
         }
-
-        */
 
 
         cout << "\n========================================\n";
@@ -299,7 +301,7 @@ int main()
                 }
             }
         }
-        else{
+        else if(!cindy.isInTheWild){
             cout << ">> Cindy 已死亡。\n";
         }
         
@@ -346,7 +348,7 @@ int main()
                 }
             }
         }
-        else{
+        else if(!chris.isInTheWild){
             cout << ">> Chris 已死亡。\n";
         }
 
@@ -356,7 +358,7 @@ int main()
 
 
         // ====================
-        // 第1-2天突發事件：神秘皮箱
+        // 第2天突發事件：神秘皮箱
         if(days == event1Day){
             MysteryCase event1;
             event1.showEvent();
@@ -370,10 +372,11 @@ int main()
             event1.makeChoice(choice, cindy, chris, playerPackage, days);
 
             cout << "----------------------------------------" << "\n";
+            pressEnterToContinue();
         }
 
 
-        // 第3-4天突發事件：神秘的訪客
+        // 第4天突發事件：神秘的訪客
         if(days == event2Day){
             StrangeVisitor event2;
             event2.showEvent();
@@ -385,6 +388,7 @@ int main()
             event2.makeChoice(choice, cindy, chris, playerPackage, days);
 
             cout << "----------------------------------------" << "\n";
+            pressEnterToContinue();
         }
 
         // 第6-7天突發事件：拜訪鄰居
@@ -399,6 +403,7 @@ int main()
             event3.makeChoice(choice, cindy, chris, playerPackage, days);
 
             cout << "----------------------------------------" << "\n";
+            pressEnterToContinue();
         }
 
         // 第8-9天突發事件：樓上的噪音
@@ -413,6 +418,7 @@ int main()
             event4.makeChoice(choice, cindy, chris, playerPackage, days);
 
             cout << "----------------------------------------" << "\n";
+            pressEnterToContinue();
         }
 
         
@@ -437,6 +443,7 @@ int main()
                 event5.makeChoice(choice, cindy, chris, playerPackage, days);
             }
             cout << "----------------------------------------" << "\n";
+            pressEnterToContinue();
         }
 
         // 突發事件6:無線電訊號
@@ -447,6 +454,7 @@ int main()
                 char choice = 'y'; // 預設選擇yes
                 event6.makeChoice(choice, cindy, chris, playerPackage, days);
                 cout << "----------------------------------------" << "\n";
+                pressEnterToContinue();
             }
         }
         else if (days == 14) {
@@ -456,6 +464,7 @@ int main()
                 char choice = 'n'; // 預設選擇no
                 event6.makeChoice(choice, cindy, chris, playerPackage, days);
                 cout << "----------------------------------------" << "\n";
+                pressEnterToContinue();
             }
         }
         
@@ -510,6 +519,7 @@ int main()
 
         cout << "this day ends\n";
         cout << "------------------------------\n";
+        pressEnterToContinue();
         days++;
     }
 
@@ -528,4 +538,15 @@ int main()
 
 
     return 0;
+}
+
+
+void pressEnterToContinue() { // 函數用於分段輸出
+    cout << "\n >> Press Enter to Continue... ";
+    
+    if (cin.peek() == '\n') { // 偷看下一位是不是留下的Enter ('\n')
+        cin.ignore(); //是的話忽略
+    }
+    
+    cin.get(); // 讀取Enter
 }

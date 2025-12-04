@@ -61,27 +61,35 @@ void Character::passDay(int mentalBonus){
         if(thirst < 0) thirst = 0; 
         if(hunger < 0) hunger = 0; 
         if(mental < 0) mental = 0;
-        cout << "!!! " << name << " 不幸死亡了 !!!" << "\n";
+        if (!isInTheWild) {
+            cout << "!!! " << name << " 不幸死亡了 !!!" << "\n";
+        }
         return;
     }
 
     if(isSick){
         sickDays++; 
-        cout << name << "處於生病狀態 (第 " << sickDays << " 天)..." << "\n";
+        if (!isInTheWild) {
+            cout << name << "處於生病狀態 (第 " << sickDays << " 天)..." << "\n";
+        }
         
         if(sickDays >= 3){
             isAlive = false;
-            cout << "!!! " << name << "因為重病不幸身亡 !!!" << "\n";
+            if (!isInTheWild) {
+                cout << "!!! " << name << "因為重病不幸身亡 !!!" << "\n";
+            }
             return;
         }
     }
     else{
         bool inDanger = (thirst < 20) || (hunger < 20) || (mental < 25);
         if(inDanger){
-            if(rand() % 2 == 0){
+            if(rand() % 3 == 0){
                 isSick = true;
                 sickDays = 0;
-                cout << "!!! " << name << " 因為狀況不佳而生病了 !!!" << "\n";
+                if (!isInTheWild) {
+                    cout << "!!! " << name << " 因為狀況不佳而生病了 !!!" << "\n";
+                }
             }
         }
     }

@@ -5,9 +5,11 @@
 #include "Item.h"
 using namespace std;
 
-Package::Package(int qWater, int qFood, int qAxe, 
+Package::Package(string name, int qWater, int qFood, int qAxe, 
         int qPistol, int qGame, int qBook, int qGasMask, int qMap, int qSaxophone, int qRadio, int qMedKit) 
 {
+    this->packageName = name;
+
     items[0] = new Water("bottled water", qWater);
     items[1] = new Food("can", qFood);
     items[2] = new Axe("axe", qAxe);
@@ -28,7 +30,7 @@ void Package::addItem(string addName, int q)
         if (items[i]->getName() == addName) 
         {
             items[i]->addQuantity(q);
-            cout << q << " " << addName << "(s) added to the package." << endl;
+            cout << q << " " << addName << "(s) added to " << packageName << "." << endl;
             return;
         }
     }
@@ -78,7 +80,7 @@ void Package::deleteItem(string delName, int q)
             if (items[i]->getQuantity() >= q) 
             {
                 items[i]->addQuantity(-q);
-                cout << q << " " << delName << "(s) deleted from the package." << endl;
+                cout << q << " " << delName << "(s) deleted from " << packageName << "." << endl;
             } 
             else 
             {
@@ -105,6 +107,7 @@ void Package::displayItems()
     }
     cout << endl;
     
+
     cout << "----------------------------------------" << endl;
 }
 

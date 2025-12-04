@@ -24,7 +24,7 @@ void ExpeditionSystem::startExpedition(Character& adventurer, Package& playerPac
 {
     neverBack = false;
     isDead = false;
-    expeditionBag = new Package(0,0,0,0,0,0,0,0,0,0,0); // 初始化一個空的背包
+    expeditionBag = new Package("Expedition Bag", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0); // 初始化一個空的背包
     hadExpedition = true;
     isActive = true;
     explorerName = adventurer.getName();
