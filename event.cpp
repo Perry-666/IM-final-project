@@ -183,10 +183,7 @@ bool ExpeditionSystem::checkReturn()
 
 // 探險回歸結算：顯示報告、轉移物資、設定角色狀態
 void ExpeditionSystem::resolveReturn(Package& mainPackage, Character& cindy, Character& chris) 
-{
-    cout << "\n========================================\n";
-    cout << ">>> [探險報告] " << explorerName << " 的探險結果：\n";
-    
+{   
     // 處理生死
     if (isDead) 
     {
@@ -206,6 +203,8 @@ void ExpeditionSystem::resolveReturn(Package& mainPackage, Character& cindy, Cha
     else 
     {
          // 顯示日誌 (讓玩家知道發生什麼事)
+        cout << "\n========================================\n";
+        cout << ">>> [探險報告] " << explorerName << " 的探險結果：\n";
         for (const string& entry : log) 
         {
             cout << " - " << entry << endl;
@@ -216,16 +215,15 @@ void ExpeditionSystem::resolveReturn(Package& mainPackage, Character& cindy, Cha
         
         string allItems[] = {"bottled water", "can", "axe", "pistol", "game", "book", "gas mask", "map", "saxophone", "radio", "medkit"};
         
-        // 將探險背包的東西轉移回主背包
         for (const string& itemName : allItems) 
         {
             int qty = expeditionBag->showItemQuantity(itemName);
             if (qty > 0) 
             {
-                mainPackage.addItem(itemName, qty); 
+                mainPackage.addItem(itemName, qty); // 加回主背包
             }
         }
-        // 設定角色狀態為瀕死 (探險後的虛弱)
+        // 設定角色狀態
         if (explorerName == "Cindy") 
         {
             cindy.setStatus(25, 25, 30); 

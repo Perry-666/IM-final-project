@@ -34,12 +34,12 @@ void Package::addItem(string addName, int q)
         if (items[i]->getName() == addName) 
         {
             items[i]->addQuantity(q);
-            cout << q << " " << addName << "(s) added to " << packageName << "." << endl;
             return;
         }
     }
     cout << "Item " << addName << " not found in the package." << endl;
 }
+
 
 // 使用物品 (扣除數量並觸發效果)
 void Package::useItem(string useName, int q, Character& character)
@@ -51,18 +51,18 @@ void Package::useItem(string useName, int q, Character& character)
             if (items[i]->getQuantity() >= q) 
             {
                 items[i]->addQuantity(-q);
-                cout << q << " " << useName << "(s) used from the package." << endl;
-                items[i]->use(character, q); // 呼叫物品的具體效果
+                items[i]->use(character, q);
             } 
             else 
             {
-                cout << "Not enough " << useName << " to use." << endl;
+                cout << useName << "沒有足夠數量使用" << endl;
             }
             return;
         }
     }
     cout << "Item " << useName << " not found in the package." << endl;
 }
+
 
 // 查詢物品數量
 int Package::showItemQuantity(string itemName)
@@ -87,12 +87,7 @@ void Package::deleteItem(string delName, int q)
             if (items[i]->getQuantity() >= q) 
             {
                 items[i]->addQuantity(-q);
-                cout << q << " " << delName << "(s) deleted from " << packageName << "." << endl;
             } 
-            else 
-            {
-                cout << "Not enough " << delName << " to delete." << endl;
-            }
             return;
         }
     }
@@ -102,7 +97,7 @@ void Package::deleteItem(string delName, int q)
 // 顯示背包清單 (格式化輸出)
 void Package::displayItems()
 {
-    cout << "Items in the package:" << endl;
+    cout << "剩餘物資:" << endl;
     cout << "----------------------------------------" << endl;
 
     for (int i = 0; i < 11; ++i) 

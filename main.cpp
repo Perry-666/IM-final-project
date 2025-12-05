@@ -14,27 +14,48 @@ int main()
     srand(time(0)); // 設定隨機種子
 
     // --- 遊戲開頭介紹 ---
-    cout << "\n================ GAME START ================\n";
-    cout << "Welcome to the survival game!\n";
-    cout << "You have 15 days to keep  at least one of your characters alive.";
+    cout << "\n=======================================================\n";
+    cout << "               末日生存 (Survival Game)               \n";
+    cout << "=======================================================\n\n";
+    
+    cout << "外面世界因為某種因素從此改變了。\n";
+    cout << "目前外面已不適合人類出去。\n";
+    cout << "幸運的是，你們（Cindy Chris）及時躲進了地下避難所。\n";
+    cout << "不幸的是，避難所裡的物資非常有限，而救援遙遙無期。\n\n";
+    
+    cout << "現在，你必須操控兩位倖存者：\n";
+    
+    cout << "你的目標是讓至少一人在險惡的末日環境中存活 15 天。\n";
+    cout << "你需要精打細算每一滴水、每一口食物，並面對突如其來的危機。\n";
+    cout << "無論是來自外部的威脅，還是內心的崩潰，都將考驗著你們...\n";
+
     pressEnterToContinue();
-    cout << "Below are the initial endowments.\n";
-    cout << "Please refer to the table of the share of each item.\n";
-    cout << "Allocate them wisely, the maximum capacity is 100.\n";
+
+    // 介紹各種物品
+    cout << "\n[初期物資分配]\n";
+    cout << "避難所的空間是有限的，背包最大容量只有 100 單位。\n";
+    cout << "請參考下方物資的重量表，明智地分配你們的初始裝備。\n";
+    cout << "有些物品能保命，有些能安撫心靈，而有些則是探險必備。\n";
     cout << "----------------------------------------" << "\n";
 
-    // 顯示各種物品的重量
-    cout << "Water: "<< waterWeight <<endl;
-    cout << "Food: " << foodWeight << endl;
-    cout << "Axe: " << axeWeight << endl;
-    cout << "Pistol: " << pistolWeight << endl;
-    cout << "Game: " << gameWeight << endl; //精神
-    cout << "Book: " << bookWeight << endl; //精神
-    cout << "GasMask: " << gasMaskWeight << endl;
-    cout << "Map: " << mapWeight << endl;
-    cout << "Saxophone: " << saxophoneWeight << endl; //精神
-    cout << "Radio: " << radioWeight << endl;
-    cout << "medKit: " << medkitWeight << endl; //生病
+    cout << " [消耗品] (可攜帶多個)\n";
+    cout << " - Water (水): " << waterWeight << " (解渴與生存之源)\n";
+    cout << " - Food (食物): " << foodWeight << " (止飢與體力來源)\n";
+    
+    cout << "\n [裝備] (只能攜帶 0 或 1 個)\n";
+    cout << " - Axe (斧頭): " << axeWeight << " (防身與破門工具)\n";
+    cout << " - Pistol (手槍): " << pistolWeight << " (強大的遠程武器)\n";
+    cout << " - GasMask (防毒面具): " << gasMaskWeight << " (外出探險必備，防止輻射病)\n";
+    cout << " - Map (地圖): " << mapWeight << " (降低外出探險迷路的風險)\n";
+    cout << " - Medkit (急救包): " << medkitWeight << " (能治癒疾病與重傷，極其珍貴)\n";
+
+    cout << "\n [娛樂] (只能攜帶 0 或 1 個，可回復精神)\n";
+    cout << " - Game (遊戲): " << gameWeight << "\n";
+    cout << " - Book (書本): " << bookWeight << "\n";
+    cout << " - Saxophone (薩克斯風): " << saxophoneWeight << "\n";
+    cout << " - Radio (收音機): " << radioWeight << " (不僅是娛樂，或許還能接收外界訊號...)\n";
+    
+    cout << "----------------------------------------" << "\n";
 
     int initials[11] = {0};
 
@@ -42,35 +63,42 @@ int main()
     while (true)
     {   
         int total = 0;
-        cout << "Please allocate your items below.\n";
-        cout << "Except for water and food, each item can only be chosen once (0 or 1).\n";
+        cout << "\n>>> 請開始分配物資 (輸入數量):\n";
         
         for (int i = 0; i < 11; i++)
         {
-            cout << "Current package capacity remaining: " << packageCapacity - total << endl;
+            cout << "剩餘負重: " << packageCapacity - total << endl;
             
-            // 輸入各項物品數量，並檢查負數 (不可重複的物品檢查數量 0 or 1)
             if (i == 0){
                 cout << "Water : " ; 
                 cin >> initials[i] ;
                 total += initials[i] * waterWeight;
                 if(initials[i] < 0) //不可為負
                 {
-                    cout << "Invalid input for item " << endl;
-                    i--;
+                    cout << "無效輸入！數量不能為負。" << endl;
                     total -= initials[i] * waterWeight;
+                    i--;
                     continue;
                 }  
             }
+            // 若當前背包超過總額，就重新分配
+            else if (total > packageCapacity)
+            {
+                cout << "!!! 警告：總重量超過負重限制 (100) !!!\n"; 
+                cout << "請重新開始分配。\n";
+                total = 0; //超過總額需重新分配
+                break;
+            }
+
             else if (i == 1){
                 cout << "Food : " ; 
                 cin >> initials[i] ;
                 total += initials[i] * foodWeight;
                 if(initials[i] < 0) //不可為負
                 {
-                    cout << "Invalid input for item " << endl;
-                    i--;
+                    cout << "無效輸入！數量不能為負。" << endl;
                     total -= initials[i] * foodWeight;
+                    i--;
                     continue;
                 }   
             }
@@ -80,9 +108,9 @@ int main()
                 total += initials[i] * axeWeight;
                 if(initials[i] < 0 || initials[i] > 1) //不可為負且不可超過1
                 {
-                    cout << "Invalid input for item " << endl;
-                    i--;
+                    cout << "無效輸入！數量不能為負。" << endl;
                     total -= initials[i] * axeWeight;
+                    i--;
                     continue;
                 }
             }
@@ -92,9 +120,9 @@ int main()
                 total += initials[i] * pistolWeight;
                 if(initials[i] < 0 || initials[i] > 1) //不可為負且不可超過1
                 {
-                    cout << "Invalid input for item " << endl;
-                    i--;
+                    cout << "無效輸入！數量不能為負。" << endl;
                     total -= initials[i] * pistolWeight;
+                    i--;
                     continue;
                 }
             }
@@ -104,9 +132,9 @@ int main()
                 total += initials[i] * gameWeight;
                 if(initials[i] < 0|| initials[i] > 1) //不可為負
                 {
-                    cout << "Invalid input for item " << endl;
-                    i--;
+                    cout << "無效輸入！數量不能為負。" << endl;
                     total -= initials[i] * gameWeight;
+                    i--;
                     continue;
                 }
             }
@@ -116,9 +144,9 @@ int main()
                 total += initials[i] * bookWeight;
                 if(initials[i] < 0 || initials[i] > 1) //不可為負
                 {
-                    cout << "Invalid input for item " << endl;
-                    i--;
+                    cout << "無效輸入！數量不能為負。" << endl;
                     total -= initials[i] * bookWeight;
+                    i--;
                     continue;
                 }
             }
@@ -128,9 +156,9 @@ int main()
                 total += initials[i] * gasMaskWeight;
                 if(initials[i] < 0 || initials[i] > 1) //不可為負
                 {
-                    cout << "Invalid input for item " << endl;
-                    i--;
+                    cout << "無效輸入！數量不能為負。" << endl;
                     total -= initials[i] * gasMaskWeight;
+                    i--;
                     continue;
                 }
             }
@@ -140,9 +168,9 @@ int main()
                 total += initials[i] * mapWeight;
                 if(initials[i] < 0 || initials[i] > 1) //不可為負
                 {
-                    cout << "Invalid input for item " << endl;
-                    i--;
+                    cout << "無效輸入！數量不能為負。" << endl;
                     total -= initials[i] * mapWeight;
+                    i--;
                     continue;
                 }
             }
@@ -152,9 +180,9 @@ int main()
                 total += initials[i] * saxophoneWeight;
                 if(initials[i] < 0 || initials[i] > 1) //不可為負
                 {
-                    cout << "Invalid input for item " << endl;
-                    i--;
+                    cout << "無效輸入！數量不能為負。" << endl;
                     total -= initials[i] * saxophoneWeight;
+                    i--;
                     continue;
                 }
             }
@@ -164,9 +192,9 @@ int main()
                 total += initials[i] * radioWeight;
                 if(initials[i] < 0 || initials[i] > 1) //不可為負
                 {
-                    cout << "Invalid input for item " << endl;
-                    i--;
+                    cout << "無效輸入！數量不能為負。" << endl;
                     total -= initials[i] * radioWeight;
+                    i--;
                     continue;
                 }
             }
@@ -176,26 +204,25 @@ int main()
                 total += initials[i] * medkitWeight;
                 if(initials[i] < 0 || initials[i] > 1) //不可為負
                 {
-                    cout << "Invalid input for item " << endl;
-                    i--;
+                    cout << "無效輸入！數量不能為負。" << endl;
                     total -= initials[i] * medkitWeight;
+                    i--;
                     continue;
                 }
             }
-            else if (total > packageCapacity)
-            {
-                cout << "Allocation exceeds capacity. Please reallocate.\n"; 
-                total = 0; //超過總額需重新分配
-                break;
-            }
         }
-        if (total <= packageCapacity)
+        if (total <= packageCapacity && total > 0)
         {
-            cout << "Allocation successful!\n";
+            cout << "\n>>> 分配完成！總重量: " << total << "/100\n";
+            cout << "避難所的大門緩緩關閉，生存挑戰正式開始...\n";
             pressEnterToContinue();
             break;
         } 
+        else if (total == 0) {
+             cout << "!!! 你什麼都沒帶？這跟自殺沒兩樣，請重新分配 !!!\n";
+        } 
     }   
+  
 
     // 初始化遊戲物件
     Package playerPackage("Player Package", initials[0], initials[1], initials[2], initials[3], initials[4],initials[5], 
@@ -209,6 +236,7 @@ int main()
 
 
     int days = 1;
+    int nextNeverBackMsg = 0;
     
     // 設定突發事件發生的日期
     int event1Day = rand() % 1 + 2; // 突發事件開始日（2)
@@ -221,14 +249,15 @@ int main()
     while(days <= 15)
     {   
         // 檢查是否所有人都死亡
-        if(!cindy.isAliveStatus() && !chris.isAliveStatus()){
+        if(!cindy.isAliveStatus() && !chris.isAliveStatus() || (cindy.isInTheWild == true && !chris.isAliveStatus()) 
+        || (chris.isInTheWild == true && !cindy.isAliveStatus())){
             cout << "\n========= GAME OVER =========\n";
-            cout << "所有人都不幸身亡了..." << "\n";
+            cout << "所有人都不幸身亡或是無人處於地下室..." << "\n";
             cout << "生存天數: " << days - 1 << " 天\n";
 
             pressEnterToContinue();
 
-            break; // 結束遊戲
+            break;
         }
 
 
@@ -240,46 +269,67 @@ int main()
         // 計算本日娛樂精神加成
         int mentalBonus  = playerPackage.entertainmentMentalBonus();
         if(mentalBonus > 0){
-            cout << ">>> 娛樂道具發揮作用，本日精神回復 +" << mentalBonus << "\n";
+            cout << ">>> 娛樂道具發揮作用，本日精神回復\n";
         }
 
-        
+        if(cindy.isInTheWild) {
+            // 如果是 Cindy 出去，且已經被判定死亡
+            if (myExpedition.getExpeditionName() == "Cindy" && myExpedition.isDead) 
+            {
+                cout << ">>> Cindy 毫無音訊... 不知道他在外面過得如何。" << "\n";
+                nextNeverBackMsg++;
+            }
+            else if(myExpedition.getExpeditionName() == "Cindy" && myExpedition.isDead && nextNeverBackMsg >= 2)
+            {
+                cout << ">>> Cindy 似乎永遠不會回來了吧..." << "\n";
+            }
+            else 
+            {
+                cout << ">> Cindy 目前正在外面探險" << "\n";
+            }
+        }
+        else if(!cindy.isAliveStatus() && !cindy.isInTheWild){
+            cout << ">>> Cindy已死亡" << "\n";
+        }
 
-        // --- 處理冒險回歸 ---
+        if(chris.isInTheWild) {
+            // 如果是 Chris 出去，且已經被判定死亡
+            if (myExpedition.getExpeditionName() == "Chris" && myExpedition.isDead && nextNeverBackMsg < 2) 
+            {
+                cout << ">>> Chris 毫無音訊... 不知道他在外面過得如何。" << "\n";
+                nextNeverBackMsg++;
+            } 
+            else if(myExpedition.getExpeditionName() == "Chris" && myExpedition.isDead && nextNeverBackMsg >= 2)
+            {
+                cout << ">>> Chris 似乎永遠不會回來了吧..." << "\n";
+            }
+            else 
+            {
+                cout << ">>> Chris 目前正在外面探險" << "\n";
+            }
+        }
+        else if(!chris.isAliveStatus() && !chris.isInTheWild){
+            cout << ">>> Chris已死亡" << "\n";
+        }
+
+
+        // 冒險部分
         if (myExpedition.checkReturn()) 
         {
             myExpedition.resolveReturn(playerPackage, cindy, chris);
-            // 回歸後重置狀態
-            if(myExpedition.getExpeditionName() == "Cindy")
+            if(myExpedition.getExpeditionName() == "Cindy" && !myExpedition.neverBack && !myExpedition.neverBack)
             {
                 cindy.isInTheWild = false;
             }
-            if(myExpedition.getExpeditionName() == "Chris")
+            if(myExpedition.getExpeditionName() == "Chris" && !myExpedition.neverBack && !myExpedition.neverBack)
             {
                 chris.isInTheWild = false;
             }
         }
-        // 顯示失蹤角色的狀態
-        int nextNeverBackMsg = 0;
-        if(myExpedition.neverBack && nextNeverBackMsg < 2)
-        {
-            cout << myExpedition.getExpeditionName() << "已經好久沒回來了，不知道在外頭發生什麼事";
-            nextNeverBackMsg++;
-        }
-        else if(myExpedition.neverBack && nextNeverBackMsg >= 2)
-        {
-            cout << myExpedition.getExpeditionName() << "似乎永遠不會回來了吧...";
-        }
-
-
-        // --- Cindy 回合 (行動階段) ---
+        // Cindy回合
         if(cindy.isAliveStatus()){
-            if(cindy.isInTheWild){
-                cout << ">> Cindy目前正在外面探險" << "\n";
-            }
-            else{
+            if(!cindy.isInTheWild){  
                 cindy.showStatus();
-                // 生病處理
                 if(cindy.isSickStatus()){ // 生病檢查
                     int kits = playerPackage.showItemQuantity("medkit");
                     if(kits > 0){
@@ -312,22 +362,15 @@ int main()
                 }
             }
         }
-        else if(!cindy.isInTheWild){
-            cout << ">> Cindy 已死亡。\n";
-        }
         
 
         cout << "----------------------------------------\n";
 
 
-        // --- Chris 回合 (行動階段) ---
+        // Chris回合
         if(chris.isAliveStatus()){
-            if(chris.isInTheWild){
-                cout << ">> Chris目前正在外面探險" << "\n";
-            }
-            else{
+            if(!chris.isInTheWild){
                 chris.showStatus();
-                // 生病處理
                 if(chris.isSickStatus()){ // 生病檢查
                     int kits = playerPackage.showItemQuantity("medkit");
                     if(kits > 0){
@@ -360,18 +403,24 @@ int main()
                 }
             }
         }
-        else if(!chris.isInTheWild){
-            cout << ">> Chris 已死亡。\n";
+
+        // 過一天
+        if(cindy.isAliveStatus() && !cindy.isInTheWild)
+        {
+            cindy.passDay(mentalBonus);
         }
 
-        // 過一天 (扣減數值)
-        cindy.passDay(mentalBonus);
-        chris.passDay(mentalBonus);
+        if(chris.isAliveStatus() && !chris.isInTheWild)
+        {
+            chris.passDay(mentalBonus);
+        }
 
+        if(!cindy.isAliveStatus() && !chris.isAliveStatus())
+        {
+            continue;
+        }
 
         // ====================
-        // --- 觸發突發事件 ---
-
         // 第2天突發事件：神秘皮箱
         if(days == event1Day){
             MysteryCase event1;
@@ -436,7 +485,7 @@ int main()
         }
 
         
-        // 突發事件5的持續影響 (恐怖生物)
+        // 突發事件5:恐怖生物 (可能觸發多次)
         if (creatureDay != 4 && creatureDay > 0) {    
             cout << "這生物還在附近徘徊，我們必須小心應對。" << "\n";
             cout << "(精神 -10)" << "\n";
@@ -520,7 +569,7 @@ int main()
         } 
 
 
-        // 更新探險進度
+
         if(myExpedition.getExpeditionName() == "Cindy")
             {
                 myExpedition.updateDaily(cindy);
@@ -538,7 +587,6 @@ int main()
     }
 
 
-    // --- 遊戲結束結算 ---
     cout << "\n========================================\n";
 
     
@@ -556,8 +604,7 @@ int main()
 }
 
 
-// 函數用於分段輸出
-void pressEnterToContinue() { 
+void pressEnterToContinue() { // 函數用於分段輸出
     cout << "\n >> Press Enter to Continue... ";
     
     if (cin.rdbuf()->in_avail() > 0) { // 緩衝區有東西時，清理換行符號

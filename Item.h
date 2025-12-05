@@ -111,6 +111,8 @@ class Food : public Item
 // 斧頭：武器/工具
 class Axe : public Item
 {
+    private:
+
     public:
         Axe (const string & n, int q)
                 : Item (n, axeWeight, q, true) {}
@@ -120,6 +122,8 @@ class Axe : public Item
 // 手槍：武器
 class Pistol : public Item
 {
+    private:
+    
     public:
         Pistol (const string & n, int q)
                 : Item (n, pistolWeight, q, true) {}
@@ -129,6 +133,8 @@ class Pistol : public Item
 // 遊戲機：娛樂用品
 class Game : public Item
 {
+    private:
+
     public:
         Game (const string & n, int q)
                 : Item (n, gameWeight, q, false) {}
@@ -138,6 +144,8 @@ class Game : public Item
 // 書本：娛樂用品
 class Book : public Item
 {
+    private:
+
     public:
         Book (const string & n, int q)
                 : Item (n, bookWeight, q, false) {}
@@ -147,6 +155,8 @@ class Book : public Item
 // 防毒面具：探險裝備
 class GasMask : public Item
 {
+    private:
+
     public:
         GasMask (const string & n, int q)
                 : Item (n, gasMaskWeight, q, true) {}
@@ -156,6 +166,8 @@ class GasMask : public Item
 // 地圖：探險裝備 (降低風險)
 class Map : public Item
 {
+    private:
+
     public:
         Map (const string & n, int q)
                 : Item (n, mapWeight, q, true) {}
@@ -165,6 +177,8 @@ class Map : public Item
 // 薩克斯風：娛樂用品
 class Saxophone : public Item
 {
+    private:
+
     public:
         Saxophone (const string & n, int q)
                 : Item (n, saxophoneWeight, q, false) {}
@@ -174,6 +188,8 @@ class Saxophone : public Item
 // 收音機：特殊事件道具
 class Radio : public Item
 {
+    private:
+
     public:
         Radio (const string & n, int q)
                 : Item (n, radioWeight, q, false) {}
@@ -183,6 +199,8 @@ class Radio : public Item
 // 急救包：治療生病與恢復生命
 class Medkit : public Item
 {
+    private:
+    
     public:
         Medkit(const string & n ,int q)
                 : Item (n, medkitWeight, q, true) {}

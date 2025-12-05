@@ -31,7 +31,7 @@ string Character::getStatus(int value, string type){
 // 建構子
 Character::Character(const string& n, int waterCons, int foodCons, int spiritCons)
          : name(n), dailyWaterConsumed(waterCons), dailyFoodConsumed(foodCons), dailySpiritConsumed(spiritCons), 
-           bottleOfWaterRecoveryAmount(35), cansOfFoodRecoveryAmount(25){
+           bottleOfWaterRecoveryAmount(55), cansOfFoodRecoveryAmount(40){
             thirst = 100;
             hunger = 100;
             mental = 100;
@@ -67,10 +67,6 @@ void Character::passDay(int mentalBonus){
         if(hunger < 0) hunger = 0; 
         if(mental < 0) mental = 0;
         
-        // 只有在避難所內才印出訊息，避免探險時劇透
-        if (!isInTheWild) {
-            cout << "!!! " << name << " 不幸死亡了 !!!" << "\n";
-        }
         return;
     }
 
@@ -94,7 +90,7 @@ void Character::passDay(int mentalBonus){
         // 檢查是否因為數值過低而患病
         bool inDanger = (thirst < 20) || (hunger < 20) || (mental < 25);
         if(inDanger){
-            if(rand() % 3 == 0){ // 1/3 機率生病
+            if(rand() % 2 == 0){ // 1/2 機率生病
                 isSick = true;
                 sickDays = 0;
                 if (!isInTheWild) {
@@ -126,7 +122,7 @@ void Character::eatFood(int cans){
 // 顯示狀態面板
 void Character::showStatus(){
     cout << "+--------------------------------------+" << "\n";
-    cout << "| 狀態[" << name << "]                         |" << "\n"; 
+    cout << "| 狀態[" << name << "]                          |" << "\n"; 
     
     if(!isAlive){
         cout << "|             (已死亡 💀)              |" << "\n";
@@ -138,9 +134,9 @@ void Character::showStatus(){
     if(isAlive) {
         cout << "|--------------------------------------|" << "\n";
         // 使用 setw 排版讓數值對齊
-        cout << "| 飢渴 : " << " (" << setw(6) << getStatus(thirst, "water") << ")                      |\n";
-        cout << "| 飢餓 : " << " (" << setw(6) << getStatus(hunger, "food") << ")                      |\n";
-        cout << "| 精神 : " << " (" << setw(6) << getStatus(mental, "spirit") << ")                      |\n";
+        cout << "| 飢渴 : " << " (" << setw(7) << getStatus(thirst, "water") << ")                      |\n";
+        cout << "| 飢餓 : " << " (" << setw(7) << getStatus(hunger, "food") << ")                      |\n";
+        cout << "| 精神 : " << " (" << setw(7) << getStatus(mental, "spirit") << ")                      |\n";
     }
     cout << "+--------------------------------------+" << "\n";
 }

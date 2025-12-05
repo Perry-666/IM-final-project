@@ -118,7 +118,6 @@ public:
         }
         else{
             cout << "「沒有武器果然有點麻煩，不幸敗下陣來，幸好他們願意開出條件，讓我們捨棄一點物資來保全我們的小命。」" << "\n";
-            cout << "(損失: 2x水, 4x罐頭)" << "\n";
             bag.deleteItem("bottled water", 2);
             bag.deleteItem("can", 4);
         }
