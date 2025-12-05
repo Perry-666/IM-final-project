@@ -121,6 +121,21 @@ extern int creatureDay;
 class HorrificCreature : public SuddenEvent{ 
 public:
     HorrificCreature() : SuddenEvent("恐怖生物", "「角落有動靜!我們在地下室附近發現了一個奇怪的生物。它有著發光的眼睛和許多觸角，似乎在尋找食物。」"){}
+    void showEvent() override{
+    cout << "========================================" << "\n";
+    cout << " [突發事件: " << title << "] " << "\n";
+    cout << content << "\n";
+    cout << "----------------------------------------" << "\n";
+    cout << "========================================" << "\n";
+    }
+    void makeChoice(char choice, Character& cindy, Character& chris, Package& bag, int currentDay) override{
+        if(choice == 'y' || choice == 'Y'){
+            chooseYes(cindy, chris, bag, currentDay);
+        }
+        else{
+            chooseNo(cindy, chris, bag, currentDay);
+        }
+    }
     void chooseYes(Character& cindy, Character& chris, Package& bag, int currentDay) override{  //things eaten 
         cout << "「竟然是變異大蟑螂，還把我們的東西給吃了，還好它吃完之後就溜去別的地方了。我們還沒看過這麼大隻的蟑螂，真是噁心。」" << "\n";
         if(bag.showItemQuantity("book") == 1){
