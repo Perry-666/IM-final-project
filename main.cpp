@@ -219,7 +219,11 @@ int main()
         if(!cindy.isAliveStatus() && !chris.isAliveStatus()){
             cout << "\n========= GAME OVER =========\n";
             cout << "所有人都不幸身亡了..." << "\n";
-            return 0;
+            cout << "生存天數: " << days - 1 << " 天\n";
+
+            pressEnterToContinue();
+
+            break;
         }
 
 
@@ -240,11 +244,11 @@ int main()
         if (myExpedition.checkReturn()) 
         {
             myExpedition.resolveReturn(playerPackage, cindy, chris);
-            if(myExpedition.getExpeditionName() == "Cindy" && myExpedition.neverBack)
+            if(myExpedition.getExpeditionName() == "Cindy")
             {
                 cindy.isInTheWild = false;
             }
-            if(myExpedition.getExpeditionName() == "Chris" && myExpedition.neverBack)
+            if(myExpedition.getExpeditionName() == "Chris")
             {
                 chris.isInTheWild = false;
             }
@@ -517,7 +521,7 @@ int main()
             }
 
 
-        cout << "this day ends\n";
+        cout << "\nthis day ends\n";
         cout << "------------------------------\n";
         pressEnterToContinue();
         days++;
@@ -544,8 +548,10 @@ int main()
 void pressEnterToContinue() { // 函數用於分段輸出
     cout << "\n >> Press Enter to Continue... ";
     
-    if (cin.peek() == '\n') { // 偷看下一位是不是留下的Enter ('\n')
-        cin.ignore(); //是的話忽略
+    if (cin.rdbuf()->in_avail() > 0) { // 緩衝區有東西時，清理換行符號
+        if (cin.peek() == '\n') { 
+            cin.ignore(); 
+        }
     }
     
     cin.get(); // 讀取Enter

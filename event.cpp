@@ -200,7 +200,7 @@ void ExpeditionSystem::resolveReturn(Package& mainPackage, Character& cindy, Cha
             cout << " - " << entry << endl;
         }
         
-        cout << "\n>>> " << explorerName << " 平安歸來！\n";
+        cout << "\n>>> " << explorerName << " 平安歸來！\n" << "但身體非常虛弱...\n";
         cout << ">>> 帶回來的物資：\n";
         
         string allItems[] = {"bottled water", "can", "axe", "pistol", "game", "book", "gas mask", "map", "saxophone", "radio", "medkit"};
