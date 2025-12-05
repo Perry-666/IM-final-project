@@ -3,10 +3,12 @@
 #include <vector>
 #include <cstdlib> 
 #include <ctime>   
-#include "CharacterV2.h"
+#include "Character.h"
 #include "Item.h"
 #include "event.h"
 using namespace std;
+
+// --- 冒險系統實作 ---
 
 ExpeditionSystem::ExpeditionSystem()
 {
@@ -20,11 +22,13 @@ bool ExpeditionSystem::isExpeditionActive()
     return isActive;
 } 
 
+// 開始探險：初始化狀態、建立探險背包、選擇裝備
 void ExpeditionSystem::startExpedition(Character& adventurer, Package& playerPackage)
 {
     neverBack = false;
     isDead = false;
-    expeditionBag = new Package("Expedition Bag", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0); // 初始化一個空的背包
+    // 建立一個名為 "Expedition Bag" 的臨時背包
+    expeditionBag = new Package("Expedition Bag", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0); 
     hadExpedition = true;
     isActive = true;
     explorerName = adventurer.getName();
@@ -52,7 +56,6 @@ void ExpeditionSystem::startExpedition(Character& adventurer, Package& playerPac
 
         string targetName = "";
         
-        // 將編號對應到正確的字串 (對應 Item.cpp 的名稱)
         switch(choice)
         {
             case 1: targetName = "pistol"; break;
@@ -61,7 +64,7 @@ void ExpeditionSystem::startExpedition(Character& adventurer, Package& playerPac
             case 4: targetName = "map"; break;
             default:
                 cout << "無效的選項，請重新輸入。\n";
-                continue; // 跳過這次迴圈，重選
+                continue; 
         }
 
         // 檢查庫存並轉移
@@ -81,6 +84,7 @@ void ExpeditionSystem::startExpedition(Character& adventurer, Package& playerPac
     cout << "\n>>> " << explorerName << " 帶著裝備，消失在荒野中...\n";
 }
 
+// 每日更新探險進度 (隨機事件、搜刮、危險)
 void ExpeditionSystem::updateDaily(Character& adventurer)
 {
     if (!isActive) return;
@@ -90,18 +94,21 @@ void ExpeditionSystem::updateDaily(Character& adventurer)
     int noEventProb = 20; 
     int lootEventProb = 80;
 
+    // 有地圖時，平安無事機率降低(代表更容易搜刮到東西)，搜刮機率提高
     if(expeditionBag->showItemQuantity("map") > 0)
     {
-        noEventProb = 10; // 有地圖，危險事件機率降低
+        noEventProb = 10; 
         lootEventProb = 90;
     }
 
     int eventRoll = rand() % 100 + 1; // 1~100 的隨機數
+
+    // 1. 平安無事
     if (eventRoll <= noEventProb) 
     {
         log.push_back(explorerName + " 度過平安無事的一天。");
     } 
-
+    // 2. 搜刮事件
     else if (eventRoll <= lootEventProb) 
     {
         int lootType = rand() % 3;
@@ -126,9 +133,10 @@ void ExpeditionSystem::updateDaily(Character& adventurer)
             }
         }
     } 
-
+    // 3. 危險事件 (劫匪或意外)
     else if (eventRoll <= 100) 
     {
+        // 如果有武器，可以擊退敵人並獲得戰利品
         if(expeditionBag->showItemQuantity("pistol") > 0 || expeditionBag->showItemQuantity("axe") > 0)
         {
             log.push_back(explorerName + " 路上遭遇了劫匪，但幸好有武器在身，成功趕跑了劫匪，他們還掉了一些水和罐頭。");
@@ -137,8 +145,9 @@ void ExpeditionSystem::updateDaily(Character& adventurer)
             return;
         }
         
+        // 沒武器，判定生死
         int deadRoll = rand() % 5;
-        if(deadRoll <= 1) 
+        if(deadRoll <= 1) // 40% 機率死亡
         {
             isDead = true;
             log.push_back("悲劇！" + explorerName + " 在探險途中不幸遇難，永遠地留在了荒野中...");
@@ -155,10 +164,11 @@ void ExpeditionSystem::updateDaily(Character& adventurer)
         }
     }
     
+    // 檢查角色身體狀況 (生病或虛弱會增加死亡率)
     if(adventurer.isSickStatus() || adventurer.bodyNotGood())
     {
         int sicknessRoll = rand() % 5;
-        if(sicknessRoll <= 3)
+        if(sicknessRoll <= 3) // 80% 機率死亡
         {
             isDead = true;
             log.push_back("悲劇！" + explorerName + " 因為身體狀況不佳，在探險途中不幸遇難，永遠地留在了荒野中...");
@@ -171,6 +181,7 @@ bool ExpeditionSystem::checkReturn()
     return (isActive && daysRemaining <= 0);
 }
 
+// 探險回歸結算：顯示報告、轉移物資、設定角色狀態
 void ExpeditionSystem::resolveReturn(Package& mainPackage, Character& cindy, Character& chris) 
 {
     cout << "\n========================================\n";
@@ -205,15 +216,16 @@ void ExpeditionSystem::resolveReturn(Package& mainPackage, Character& cindy, Cha
         
         string allItems[] = {"bottled water", "can", "axe", "pistol", "game", "book", "gas mask", "map", "saxophone", "radio", "medkit"};
         
+        // 將探險背包的東西轉移回主背包
         for (const string& itemName : allItems) 
         {
             int qty = expeditionBag->showItemQuantity(itemName);
             if (qty > 0) 
             {
-                mainPackage.addItem(itemName, qty); // 加回主背包
+                mainPackage.addItem(itemName, qty); 
             }
         }
-        // 設定角色狀態
+        // 設定角色狀態為瀕死 (探險後的虛弱)
         if (explorerName == "Cindy") 
         {
             cindy.setStatus(25, 25, 30); 
@@ -231,11 +243,10 @@ void ExpeditionSystem::resolveReturn(Package& mainPackage, Character& cindy, Cha
     isActive = false;
 }
 
-int creatureDay = 4;
+int creatureDay = 4; // 初始化生物滯留天數
 
 /*-------------------------------------------------------------------------------*/
-/*--------------------------------突發事件----------------------------------------*/
-
+/*-------------------------------- 突發事件實作 ----------------------------------*/
 
 SuddenEvent::SuddenEvent(string t, string c) : title(t), content(c){}
 
@@ -261,5 +272,4 @@ void SuddenEvent::makeChoice(char choice, Character& cindy, Character& chris, Pa
 
 SuddenEvent::~SuddenEvent()
 {
-    
 }

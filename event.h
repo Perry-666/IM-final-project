@@ -6,34 +6,36 @@
 #include <vector>
 #include <cstdlib> 
 #include <ctime>   
-#include "CharacterV2.h"
+#include "Character.h"
 #include "Item.h"
 using namespace std;
 
-// 冒險
+// --- 冒險系統類別 ---
 class ExpeditionSystem 
 {
     private:
         bool isActive;          // 現在是否有人在外面？
         string explorerName;    // 誰出去了？
         int daysRemaining;      // 還剩幾天回來？
-        vector<string> log;     // 日誌
+        vector<string> log;     // 冒險日誌
     public:
-        bool neverBack;
-        Package* expeditionBag;
-        bool isDead;
-        bool hadExpedition;
+        bool neverBack;         // 角色是否死亡未歸
+        Package* expeditionBag; // 探險專用的臨時背包
+        bool isDead;            // 探險中死亡標記
+        bool hadExpedition;     // 是否已經進行過探險
+        
         ExpeditionSystem();
+        
         bool isExpeditionActive(); // 檢查現在是否在外面
-        void startExpedition(Character& adventurer, Package& playerPackage);
-        void updateDaily(Character& adventurer);
-        bool checkReturn();
-        void resolveReturn(Package& mainPackage, Character& cindy, Character& chris);
+        void startExpedition(Character& adventurer, Package& playerPackage); // 開始探險，選擇裝備
+        void updateDaily(Character& adventurer); // 每日探險進度更新
+        bool checkReturn(); // 檢查是否該回來了
+        void resolveReturn(Package& mainPackage, Character& cindy, Character& chris); // 處理回歸結算
         string getExpeditionName() {return explorerName;};
 };
 
 
-// 突發事件
+// --- 突發事件基底類別 ---
 class SuddenEvent{
 protected:
     string title;
@@ -41,16 +43,23 @@ protected:
 public:
     SuddenEvent(string t, string c);
     virtual ~SuddenEvent();
+    
     virtual void showEvent();
+    // 處理玩家選擇的介面
     virtual void makeChoice(char choice, Character& cindy, Character& chris, Package& bag, int currentDay);
+    
+    // 抽象函式：選擇 Yes/No 的具體後果
     virtual void chooseYes(Character& cindy, Character& chris, Package& bag, int currentDay) = 0;
     virtual void chooseNo(Character& cindy, Character& chris, Package& bag, int currentDay) = 0;
 };
+
+// --- 各種突發事件實作 ---
 
 // 突發事件一：神秘皮箱
 class MysteryCase : public SuddenEvent{
 public:
     MysteryCase() : SuddenEvent("神秘皮箱", "「夜裡，我們聽到奇怪的腳步聲。今天早上，我們發現門外多了一個皮箱，但是上面沒有任何的地址和姓名。我們應該打開它嗎?」"){};
+    
     void chooseYes(Character& cindy, Character& chris, Package& bag, int currentDay) override{
         cout << "「裡面是一瓶水，我們便打開喝下去了。本來以為我們很幸運，沒想到這瓶水似乎遭受到汙染。大家過沒多久便開始上吐下瀉，非常難受。」" << "\n";
         cout << "(所有人 飢渴 -20 飢餓 -10)" << "\n";
@@ -69,9 +78,10 @@ public:
 };
 
 // 突發事件二：神秘的訪客
-class StrangeVisitor : public SuddenEvent{  // 秉駪
+class StrangeVisitor : public SuddenEvent{
 public:
     StrangeVisitor() : SuddenEvent("神秘的訪客", "「不知道是誰這麼沒禮貌，大清早便猛敲我們避難所的門，把所有人都吵醒了。他們十分堅持，已經連續敲了五分鐘，我們應該開門嗎?」"){};
+    
     void chooseYes(Character& cindy, Character& chris, Package& bag, int currentDay) override{
         cout << "「一群戴著防毒面具，拿著高端設備的旅行者們給了我們兩瓶水，我們還來不及感謝他們，他們便轉身離開了。」" << "\n";
         cout << "(獲得: 2x水)" << "\n";
@@ -83,9 +93,10 @@ public:
 };
 
 // 突發事件三:拜訪鄰居  
-class VisitNeighbor : public SuddenEvent{  // 秉駪
+class VisitNeighbor : public SuddenEvent{
 public:
     VisitNeighbor() : SuddenEvent("拜訪鄰居", "「我們的物資越來越少了，再這樣下去不是辦法。我們知道一個鄰居避難所的暗門是壞的，而且我們更加強壯。我們應該拜訪他們嗎?」"){};
+    
     void chooseYes(Character& cindy, Character& chris, Package& bag, int currentDay) override{
         cout << "「雖然我們有了更多物資，但是因為某些原因大家心裡感覺並不好，我們永遠別再提這件事了。」" << "\n";
         cout << "(獲得: 4x罐頭)" << "\n";
@@ -97,9 +108,10 @@ public:
 };
 
 // 突發事件四:樓上的噪音  
-class NoiseUpstairs : public SuddenEvent{  // 秉駪
+class NoiseUpstairs : public SuddenEvent{
 public:
     NoiseUpstairs() : SuddenEvent("樓上的噪音", "「我們聽到樓上一直傳來翻箱倒櫃的聲音，不過之前樓上應該都沒有人居住。我們應該上去看看嗎?」"){};
+    
     void chooseYes(Character& cindy, Character& chris, Package& bag, int currentDay) override{
         if(bag.showItemQuantity("axe") > 0 || bag.showItemQuantity("pistol") > 0){
             cout << "「上面是一群劫匪似乎想把我們的避難所挖個底朝天，幸好有武器把他們趕跑了。」" << "\n";
@@ -116,12 +128,14 @@ public:
     }
 };
 
-extern int creatureDay;
-//突發事件5
+extern int creatureDay; // 全域變數，紀錄生物停留天數
+
+// 突發事件五:恐怖生物
 class HorrificCreature : public SuddenEvent{ 
 public:
     HorrificCreature() : SuddenEvent("恐怖生物", "「角落有動靜!我們在地下室附近發現了一個奇怪的生物。它有著發光的眼睛和許多觸角，似乎在尋找食物。」"){}
-    void chooseYes(Character& cindy, Character& chris, Package& bag, int currentDay) override{  //things eaten 
+    
+    void chooseYes(Character& cindy, Character& chris, Package& bag, int currentDay) override{
         cout << "「竟然是變異大蟑螂，還把我們的東西給吃了，還好它吃完之後就溜去別的地方了。我們還沒看過這麼大隻的蟑螂，真是噁心。」" << "\n";
         if(bag.showItemQuantity("book") == 1){
             bag.deleteItem("book", 1);
@@ -140,24 +154,27 @@ public:
             cout << "(精神 -10)" << "\n";
             cindy.mentalChange(-10);
             chris.mentalChange(-10);
-            creatureDay--;
+            creatureDay--; // 觸發持續扣精神機制
         }   
     }
     void chooseNo(Character& cindy, Character& chris, Package& bag, int currentDay) override{
+        // 選擇 No 的後果通常在 main loop 中處理
     }
 };
 
-//突發事件6
+// 突發事件六:無線電訊號
 class RadioSignal : public SuddenEvent{ 
 public:
     RadioSignal() : SuddenEvent("無線電訊號", "「收音機發出聲音了! 裡頭似乎傳出軍方無線電的對話內容，說是明天會在附近發放一些物資。」") {}
+    
     void showEvent() override{
-    cout << "========================================" << "\n";
-    cout << " [突發事件: " << title << "] " << "\n";
-    cout << content << "\n";
-    cout << "----------------------------------------" << "\n";
-    cout << "========================================" << "\n";
+        cout << "========================================" << "\n";
+        cout << " [突發事件: " << title << "] " << "\n";
+        cout << content << "\n";
+        cout << "----------------------------------------" << "\n";
+        cout << "========================================" << "\n";
     }
+    
     void makeChoice(char choice, Character& cindy, Character& chris, Package& bag, int currentDay) override{
         if(choice == 'y' || choice == 'Y'){
             chooseYes(cindy, chris, bag, currentDay);
@@ -166,12 +183,14 @@ public:
             chooseNo(cindy, chris, bag, currentDay);
         }
     }
-    void chooseYes(Character& cindy, Character& chris, Package& bag, int currentDay) override{  //mental +5
+    
+    void chooseYes(Character& cindy, Character& chris, Package& bag, int currentDay) override{  
         cout << "「解出來那組密碼了，原來是經緯度座標，我們出去看看好了。」" << "\n";
         cout << "(精神 +5)" << "\n";
         cindy.mentalChange(5);
         chris.mentalChange(5);
     }
+    
     void chooseNo(Character& cindy, Character& chris, Package& bag, int currentDay) override{
         cout << "「收音機突然又有訊號了，似乎明天軍方準備要來救出我們，苦日子終於要結束了。」" << "\n";
     }   
