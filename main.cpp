@@ -1,22 +1,29 @@
 #include <iostream>
-#include "CharacterV2.h"
+#include "Character.h"
 #include "Item.h"
 #include "event.h"
 using namespace std;
+
+
+void pressEnterToContinue();
+
 
 int main()
 {
 
     srand(time(0)); // 設定隨機種子
 
+    // --- 遊戲開頭介紹 ---
     cout << "\n================ GAME START ================\n";
     cout << "Welcome to the survival game!\n";
-    cout << "You have 15 days to keep  at least one of your characters alive.\n";
+    cout << "You have 15 days to keep  at least one of your characters alive.";
+    pressEnterToContinue();
     cout << "Below are the initial endowments.\n";
     cout << "Please refer to the table of the share of each item.\n";
     cout << "Allocate them wisely, the maximum capacity is 100.\n";
     cout << "----------------------------------------" << "\n";
 
+    // 顯示各種物品的重量
     cout << "Water: "<< waterWeight <<endl;
     cout << "Food: " << foodWeight << endl;
     cout << "Axe: " << axeWeight << endl;
@@ -31,6 +38,7 @@ int main()
 
     int initials[11] = {0};
 
+    // --- 初始物資分配迴圈 ---
     while (true)
     {   
         int total = 0;
@@ -41,6 +49,7 @@ int main()
         {
             cout << "Current package capacity remaining: " << packageCapacity - total << endl;
             
+            // 輸入各項物品數量，並檢查負數 (不可重複的物品檢查數量 0 or 1)
             if (i == 0){
                 cout << "Water : " ; 
                 cin >> initials[i] ;
@@ -183,11 +192,13 @@ int main()
         if (total <= packageCapacity)
         {
             cout << "Allocation successful!\n";
+            pressEnterToContinue();
             break;
         } 
     }   
 
-    Package playerPackage(initials[0], initials[1], initials[2], initials[3], initials[4],initials[5], 
+    // 初始化遊戲物件
+    Package playerPackage("Player Package", initials[0], initials[1], initials[2], initials[3], initials[4],initials[5], 
                       initials[6], initials[7], initials[8], initials[9], initials[10]);
 
     
@@ -199,26 +210,26 @@ int main()
 
     int days = 1;
     
-    // 秉駪
-    int event1Day = rand() % 3 + 1; // 突發事件開始日（1-3)
-    int event2Day = rand() % 2 + 3; // 突發事件開始日 (3-4)
-    int event3Day = rand() % 3 + 6; // 突發事件開始日 (6-8)
-    int event4Day = rand() % 3 + 8; // 突發事件開始日 (9-11)
-    int event5Day = rand() % 3 + 11; // 突發事件開始日 (11-13)
+    // 設定突發事件發生的日期
+    int event1Day = rand() % 1 + 2; // 突發事件開始日（2)
+    int event2Day = rand() % 1 + 4; // 突發事件開始日 (4)
+    int event3Day = rand() % 2 + 6; // 突發事件開始日 (6-7)
+    int event4Day = rand() % 2 + 9; // 突發事件開始日 (9-10)
+    int event5Day = rand() % 2 + 12; // 突發事件開始日 (12-13)
 
+    // --- 遊戲主迴圈 ---
     while(days <= 15)
     {   
-
-
-        /*
-
+        // 檢查是否所有人都死亡
         if(!cindy.isAliveStatus() && !chris.isAliveStatus()){
             cout << "\n========= GAME OVER =========\n";
             cout << "所有人都不幸身亡了..." << "\n";
-            return 0;
-        }
+            cout << "生存天數: " << days - 1 << " 天\n";
 
-        */
+            pressEnterToContinue();
+
+            break; // 結束遊戲
+        }
 
 
         cout << "\n========================================\n";
@@ -234,20 +245,21 @@ int main()
 
         
 
-        // 冒險部分
+        // --- 處理冒險回歸 ---
         if (myExpedition.checkReturn()) 
         {
             myExpedition.resolveReturn(playerPackage, cindy, chris);
-            if(myExpedition.getExpeditionName() == "Cindy" && myExpedition.neverBack)
+            // 回歸後重置狀態
+            if(myExpedition.getExpeditionName() == "Cindy")
             {
                 cindy.isInTheWild = false;
             }
-            if(myExpedition.getExpeditionName() == "Chris" && myExpedition.neverBack)
+            if(myExpedition.getExpeditionName() == "Chris")
             {
                 chris.isInTheWild = false;
             }
         }
-        // 已經死在外面不會回來了
+        // 顯示失蹤角色的狀態
         int nextNeverBackMsg = 0;
         if(myExpedition.neverBack && nextNeverBackMsg < 2)
         {
@@ -260,13 +272,14 @@ int main()
         }
 
 
-        // Cindy回合
+        // --- Cindy 回合 (行動階段) ---
         if(cindy.isAliveStatus()){
             if(cindy.isInTheWild){
                 cout << ">> Cindy目前正在外面探險" << "\n";
             }
             else{
                 cindy.showStatus();
+                // 生病處理
                 if(cindy.isSickStatus()){ // 生病檢查
                     int kits = playerPackage.showItemQuantity("medkit");
                     if(kits > 0){
@@ -299,7 +312,7 @@ int main()
                 }
             }
         }
-        else{
+        else if(!cindy.isInTheWild){
             cout << ">> Cindy 已死亡。\n";
         }
         
@@ -307,13 +320,14 @@ int main()
         cout << "----------------------------------------\n";
 
 
-        // Chris回合
+        // --- Chris 回合 (行動階段) ---
         if(chris.isAliveStatus()){
             if(chris.isInTheWild){
                 cout << ">> Chris目前正在外面探險" << "\n";
             }
             else{
                 chris.showStatus();
+                // 生病處理
                 if(chris.isSickStatus()){ // 生病檢查
                     int kits = playerPackage.showItemQuantity("medkit");
                     if(kits > 0){
@@ -346,17 +360,19 @@ int main()
                 }
             }
         }
-        else{
+        else if(!chris.isInTheWild){
             cout << ">> Chris 已死亡。\n";
         }
 
-        // 過一天
+        // 過一天 (扣減數值)
         cindy.passDay(mentalBonus);
         chris.passDay(mentalBonus);
 
 
         // ====================
-        // 第1-2天突發事件：神秘皮箱
+        // --- 觸發突發事件 ---
+
+        // 第2天突發事件：神秘皮箱
         if(days == event1Day){
             MysteryCase event1;
             event1.showEvent();
@@ -370,10 +386,11 @@ int main()
             event1.makeChoice(choice, cindy, chris, playerPackage, days);
 
             cout << "----------------------------------------" << "\n";
+            pressEnterToContinue();
         }
 
 
-        // 第3-4天突發事件：神秘的訪客
+        // 第4天突發事件：神秘的訪客
         if(days == event2Day){
             StrangeVisitor event2;
             event2.showEvent();
@@ -385,6 +402,7 @@ int main()
             event2.makeChoice(choice, cindy, chris, playerPackage, days);
 
             cout << "----------------------------------------" << "\n";
+            pressEnterToContinue();
         }
 
         // 第6-7天突發事件：拜訪鄰居
@@ -399,6 +417,7 @@ int main()
             event3.makeChoice(choice, cindy, chris, playerPackage, days);
 
             cout << "----------------------------------------" << "\n";
+            pressEnterToContinue();
         }
 
         // 第8-9天突發事件：樓上的噪音
@@ -413,10 +432,11 @@ int main()
             event4.makeChoice(choice, cindy, chris, playerPackage, days);
 
             cout << "----------------------------------------" << "\n";
+            pressEnterToContinue();
         }
 
         
-        // 突發事件5:恐怖生物 (可能觸發多次)
+        // 突發事件5的持續影響 (恐怖生物)
         if (creatureDay != 4 && creatureDay > 0) {    
             cout << "這生物還在附近徘徊，我們必須小心應對。" << "\n";
             cout << "(精神 -10)" << "\n";
@@ -437,6 +457,7 @@ int main()
                 event5.makeChoice(choice, cindy, chris, playerPackage, days);
             }
             cout << "----------------------------------------" << "\n";
+            pressEnterToContinue();
         }
 
         // 突發事件6:無線電訊號
@@ -447,6 +468,7 @@ int main()
                 char choice = 'y'; // 預設選擇yes
                 event6.makeChoice(choice, cindy, chris, playerPackage, days);
                 cout << "----------------------------------------" << "\n";
+                pressEnterToContinue();
             }
         }
         else if (days == 14) {
@@ -456,6 +478,7 @@ int main()
                 char choice = 'n'; // 預設選擇no
                 event6.makeChoice(choice, cindy, chris, playerPackage, days);
                 cout << "----------------------------------------" << "\n";
+                pressEnterToContinue();
             }
         }
         
@@ -497,7 +520,7 @@ int main()
         } 
 
 
-
+        // 更新探險進度
         if(myExpedition.getExpeditionName() == "Cindy")
             {
                 myExpedition.updateDaily(cindy);
@@ -508,12 +531,14 @@ int main()
             }
 
 
-        cout << "this day ends\n";
+        cout << "\nthis day ends\n";
         cout << "------------------------------\n";
+        pressEnterToContinue();
         days++;
     }
 
 
+    // --- 遊戲結束結算 ---
     cout << "\n========================================\n";
 
     
@@ -528,4 +553,18 @@ int main()
 
 
     return 0;
+}
+
+
+// 函數用於分段輸出
+void pressEnterToContinue() { 
+    cout << "\n >> Press Enter to Continue... ";
+    
+    if (cin.rdbuf()->in_avail() > 0) { // 緩衝區有東西時，清理換行符號
+        if (cin.peek() == '\n') { 
+            cin.ignore(); 
+        }
+    }
+    
+    cin.get(); // 讀取Enter
 }
