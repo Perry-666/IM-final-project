@@ -106,9 +106,16 @@ int main()
                 cout << "Axe : " ; 
                 cin >> initials[i] ;
                 total += initials[i] * axeWeight;
-                if(initials[i] < 0 || initials[i] > 1) //不可為負且不可超過1
+                if(initials[i] < 0) //不可為負
                 {
                     cout << "無效輸入！數量不能為負。" << endl;
+                    total -= initials[i] * axeWeight;
+                    i--;
+                    continue;
+                }
+                else if(initials[i] > 1) // 不可超過1
+                {
+                    cout << "無效輸入！不可超過1。" << endl;
                     total -= initials[i] * axeWeight;
                     i--;
                     continue;
@@ -118,9 +125,16 @@ int main()
                 cout << "Pistol : " ; 
                 cin >> initials[i] ;
                 total += initials[i] * pistolWeight;
-                if(initials[i] < 0 || initials[i] > 1) //不可為負且不可超過1
+                if(initials[i] < 0) //不可為負
                 {
                     cout << "無效輸入！數量不能為負。" << endl;
+                    total -= initials[i] * pistolWeight;
+                    i--;
+                    continue;
+                }
+                else if(initials[i] > 1) // 不可超過1
+                {
+                    cout << "無效輸入！不可超過1。" << endl;
                     total -= initials[i] * pistolWeight;
                     i--;
                     continue;
@@ -130,9 +144,16 @@ int main()
                 cout << "Game : " ; 
                 cin >> initials[i] ;
                 total += initials[i] * gameWeight;
-                if(initials[i] < 0|| initials[i] > 1) //不可為負
+                if(initials[i] < 0) //不可為負
                 {
                     cout << "無效輸入！數量不能為負。" << endl;
+                    total -= initials[i] * gameWeight;
+                    i--;
+                    continue;
+                }
+                else if(initials[i] > 1) // 不可超過1
+                {
+                    cout << "無效輸入！不可超過1。" << endl;
                     total -= initials[i] * gameWeight;
                     i--;
                     continue;
@@ -142,9 +163,16 @@ int main()
                 cout << "Book : " ; 
                 cin >> initials[i] ;
                 total += initials[i] * bookWeight;
-                if(initials[i] < 0 || initials[i] > 1) //不可為負
+                if(initials[i] < 0) //不可為負
                 {
                     cout << "無效輸入！數量不能為負。" << endl;
+                    total -= initials[i] * bookWeight;
+                    i--;
+                    continue;
+                }
+                else if(initials[i] > 1) // 不可超過1
+                {
+                    cout << "無效輸入！不可超過1。" << endl;
                     total -= initials[i] * bookWeight;
                     i--;
                     continue;
@@ -154,9 +182,16 @@ int main()
                 cout << "GasMask : " ; 
                 cin >> initials[i] ;
                 total += initials[i] * gasMaskWeight;
-                if(initials[i] < 0 || initials[i] > 1) //不可為負
+                if(initials[i] < 0) //不可為負
                 {
                     cout << "無效輸入！數量不能為負。" << endl;
+                    total -= initials[i] * gasMaskWeight;
+                    i--;
+                    continue;
+                }
+                else if(initials[i] > 1) // 不可超過1
+                {
+                    cout << "無效輸入！不可超過1。" << endl;
                     total -= initials[i] * gasMaskWeight;
                     i--;
                     continue;
@@ -166,9 +201,16 @@ int main()
                 cout << "Map : " ; 
                 cin >> initials[i] ;
                 total += initials[i] * mapWeight;
-                if(initials[i] < 0 || initials[i] > 1) //不可為負
+                if(initials[i] < 0) //不可為負
                 {
                     cout << "無效輸入！數量不能為負。" << endl;
+                    total -= initials[i] * mapWeight;
+                    i--;
+                    continue;
+                }
+                else if(initials[i] > 1) // 不可超過1
+                {
+                    cout << "無效輸入！不可超過1。" << endl;
                     total -= initials[i] * mapWeight;
                     i--;
                     continue;
@@ -178,9 +220,16 @@ int main()
                 cout << "Saxophone : " ; 
                 cin >> initials[i] ;
                 total += initials[i] * saxophoneWeight;
-                if(initials[i] < 0 || initials[i] > 1) //不可為負
+                if(initials[i] < 0) //不可為負
                 {
                     cout << "無效輸入！數量不能為負。" << endl;
+                    total -= initials[i] * saxophoneWeight;
+                    i--;
+                    continue;
+                }
+                else if(initials[i] > 1) // 不可超過1
+                {
+                    cout << "無效輸入！不可超過1。" << endl;
                     total -= initials[i] * saxophoneWeight;
                     i--;
                     continue;
@@ -190,9 +239,16 @@ int main()
                 cout << "Radio : " ;
                 cin >> initials[i] ;
                 total += initials[i] * radioWeight;
-                if(initials[i] < 0 || initials[i] > 1) //不可為負
+                if(initials[i] < 0) //不可為負
                 {
                     cout << "無效輸入！數量不能為負。" << endl;
+                    total -= initials[i] * radioWeight;
+                    i--;
+                    continue;
+                }
+                else if(initials[i] > 1) // 不可超過1
+                {
+                    cout << "無效輸入！不可超過1。" << endl;
                     total -= initials[i] * radioWeight;
                     i--;
                     continue;
@@ -202,9 +258,16 @@ int main()
                 cout << "Medkit : " ; 
                 cin >> initials[i] ;
                 total += initials[i] * medkitWeight;
-                if(initials[i] < 0 || initials[i] > 1) //不可為負
+                if(initials[i] < 0) //不可為負
                 {
                     cout << "無效輸入！數量不能為負。" << endl;
+                    total -= initials[i] * medkitWeight;
+                    i--;
+                    continue;
+                }
+                else if(initials[i] > 1) // 不可超過1
+                {
+                    cout << "無效輸入！不可超過1。" << endl;
                     total -= initials[i] * medkitWeight;
                     i--;
                     continue;
@@ -592,11 +655,11 @@ int main()
     
     if(cindy.isAliveStatus() || chris.isAliveStatus()){
         cout << "恭喜！至少有一名倖存者活過了 15 天！\n";
-        cout << ">> VICTORY <<\n";
+        cout << ">>>>>>>>>>>>>>> VICTORY <<<<<<<<<<<<<<<\n";
     } 
     else{
         cout << "很遺憾，所有人都未能倖存...\n";
-        cout << ">> DEFEAT <<\n";
+        cout << ">>>>>>>>>>>>>>>> DEFEAT <<<<<<<<<<<<<<<<\n";
     }
 
 

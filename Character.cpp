@@ -134,9 +134,9 @@ void Character::showStatus(){
     if(isAlive) {
         cout << "|--------------------------------------|" << "\n";
         // 使用 setw 排版讓數值對齊
-        cout << "| 飢渴 : " << " (" << setw(7) << getStatus(thirst, "water") << ")                      |\n";
-        cout << "| 飢餓 : " << " (" << setw(7) << getStatus(hunger, "food") << ")                      |\n";
-        cout << "| 精神 : " << " (" << setw(7) << getStatus(mental, "spirit") << ")                      |\n";
+        cout << "| 飢渴 : " << " ( " << setw(5) << getStatus(thirst, "water") << " )                     |\n";
+        cout << "| 飢餓 : " << " ( " << setw(5) << getStatus(hunger, "food") << " )                     |\n";
+        cout << "| 精神 : " << " ( " << setw(5) << getStatus(mental, "spirit") << " )                     |\n";
     }
     cout << "+--------------------------------------+" << "\n";
 }
