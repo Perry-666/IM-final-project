@@ -68,6 +68,14 @@ int main()
         
         for (int i = 0; i < 11; i++)
         {
+            // 若當前背包超過總額，就重新分配
+            if (total > packageCapacity)
+            {
+                cout << "!!! 警告：總重量超過負重限制 (100) !!!\n"; 
+                cout << "請重新開始分配。\n";
+                break;
+            }
+
             cout << "剩餘負重: " << packageCapacity - total << endl;
             
             if (i == 0){
@@ -81,14 +89,6 @@ int main()
                     i--;
                     continue;
                 }  
-            }
-            // 若當前背包超過總額，就重新分配
-            else if (total > packageCapacity)
-            {
-                cout << "!!! 警告：總重量超過負重限制 (100) !!!\n"; 
-                cout << "請重新開始分配。\n";
-                total = 0; //超過總額需重新分配
-                break;
             }
 
             else if (i == 1){
