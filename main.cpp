@@ -6,6 +6,7 @@ using namespace std;
 
 
 void pressEnterToContinue();
+int getValidInt();
 
 
 int main()
@@ -71,7 +72,7 @@ int main()
             
             if (i == 0){
                 cout << "Water : " ; 
-                cin >> initials[i] ;
+                initials[i] = getValidInt();
                 total += initials[i] * waterWeight;
                 if(initials[i] < 0) //不可為負
                 {
@@ -92,7 +93,7 @@ int main()
 
             else if (i == 1){
                 cout << "Food : " ; 
-                cin >> initials[i] ;
+                initials[i] = getValidInt();
                 total += initials[i] * foodWeight;
                 if(initials[i] < 0) //不可為負
                 {
@@ -104,7 +105,7 @@ int main()
             }
             else if (i == 2){
                 cout << "Axe : " ; 
-                cin >> initials[i] ;
+                initials[i] = getValidInt();
                 total += initials[i] * axeWeight;
                 if(initials[i] < 0) //不可為負
                 {
@@ -123,7 +124,7 @@ int main()
             }
             else if (i == 3){
                 cout << "Pistol : " ; 
-                cin >> initials[i] ;
+                initials[i] = getValidInt();
                 total += initials[i] * pistolWeight;
                 if(initials[i] < 0) //不可為負
                 {
@@ -142,7 +143,7 @@ int main()
             }
             else if (i == 4){
                 cout << "Game : " ; 
-                cin >> initials[i] ;
+                initials[i] = getValidInt();
                 total += initials[i] * gameWeight;
                 if(initials[i] < 0) //不可為負
                 {
@@ -161,7 +162,7 @@ int main()
             }
             else if (i == 5){
                 cout << "Book : " ; 
-                cin >> initials[i] ;
+                initials[i] = getValidInt();
                 total += initials[i] * bookWeight;
                 if(initials[i] < 0) //不可為負
                 {
@@ -180,7 +181,7 @@ int main()
             }
             else if (i == 6){
                 cout << "GasMask : " ; 
-                cin >> initials[i] ;
+                initials[i] = getValidInt();
                 total += initials[i] * gasMaskWeight;
                 if(initials[i] < 0) //不可為負
                 {
@@ -199,7 +200,7 @@ int main()
             }
             else if (i == 7){
                 cout << "Map : " ; 
-                cin >> initials[i] ;
+                initials[i] = getValidInt();
                 total += initials[i] * mapWeight;
                 if(initials[i] < 0) //不可為負
                 {
@@ -218,7 +219,7 @@ int main()
             }
             else if (i == 8){
                 cout << "Saxophone : " ; 
-                cin >> initials[i] ;
+                initials[i] = getValidInt();
                 total += initials[i] * saxophoneWeight;
                 if(initials[i] < 0) //不可為負
                 {
@@ -237,7 +238,7 @@ int main()
             }
             else if (i == 9){
                 cout << "Radio : " ;
-                cin >> initials[i] ;
+                initials[i] = getValidInt();
                 total += initials[i] * radioWeight;
                 if(initials[i] < 0) //不可為負
                 {
@@ -256,7 +257,7 @@ int main()
             }
             else if (i == 10){
                 cout << "Medkit : " ; 
-                cin >> initials[i] ;
+                initials[i] = getValidInt();
                 total += initials[i] * medkitWeight;
                 if(initials[i] < 0) //不可為負
                 {
@@ -423,10 +424,10 @@ int main()
                 playerPackage.displayItems();
                 cout << "分配給 Cindy -> 水: ";
                 int w;
-                cin >> w;
+                w = getValidInt();
                 cout << "             -> 食物: ";
                 int f;
-                cin >> f;
+                f = getValidInt();
                 if(w > 0){
                     playerPackage.useItem("bottled water", w, cindy);
                 }
@@ -474,10 +475,10 @@ int main()
                 playerPackage.displayItems();
                 cout << "分配給 Chris -> 水: ";
                 int w;
-                cin >> w;
+                w = getValidInt();
                 cout << "             -> 食物: ";
                 int f;
-                cin >> f;
+                f = getValidInt();
                 if(w > 0){
                     playerPackage.useItem("bottled water", w, chris);
                 }
@@ -697,4 +698,27 @@ void pressEnterToContinue() { // 函數用於分段輸出
     }
     
     cin.get(); // 讀取Enter
+}
+
+int getValidInt(){
+    int value;
+    cin.exceptions(ios::failbit | ios::badbit);
+    while(true){
+        try {
+            // 嘗試讀取輸入
+            // 如果輸入文字，會直接拋出ios_base::failure
+            if (cin >> value) {
+                return value; // 成功讀取，回傳數值
+            }
+        }
+        catch (const ios_base::failure& e) {
+            // 捕捉到錯誤 (輸入了文字)
+            cout << "無效輸入！請輸入數字: ";
+            
+            cin.clear(); // 解除錯誤狀態
+            
+            // 清空緩衝區
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
 }
