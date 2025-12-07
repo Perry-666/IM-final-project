@@ -32,7 +32,7 @@ void ExpeditionSystem::startExpedition(Character& adventurer, Package& playerPac
     hadExpedition = true;
     isActive = true;
     explorerName = adventurer.getName();
-    daysRemaining = rand() % 3 + 2; // 隨機設定 2~4 天
+    daysRemaining = rand() % 3 + 3; // 隨機設定 3~5 天
     log.clear(); 
 
     cout << "此次冒險中你派出了 " << explorerName << " 去尋找物資！\n";
@@ -98,7 +98,7 @@ void ExpeditionSystem::updateDaily(Character& adventurer)
     if(expeditionBag->showItemQuantity("map") > 0)
     {
         noEventProb = 10; 
-        lootEventProb = 90;
+        lootEventProb = 95;
     }
 
     int eventRoll = rand() % 100 + 1; // 1~100 的隨機數
@@ -125,7 +125,7 @@ void ExpeditionSystem::updateDaily(Character& adventurer)
         else 
         {
             // 小機率撿到急救包
-            if (rand() % 5 == 0) {
+            if (rand() % 3 == 0) {
                 expeditionBag->addItem("medkit", 1);
                 log.push_back("幸運地在藥局廢墟找到了急救包！");
             } else {
@@ -211,7 +211,6 @@ void ExpeditionSystem::resolveReturn(Package& mainPackage, Character& cindy, Cha
         }
         
         cout << "\n>>> " << explorerName << " 平安歸來！\n" << "但身體非常虛弱...\n";
-        cout << ">>> 帶回來的物資：\n";
         
         string allItems[] = {"bottled water", "can", "axe", "pistol", "game", "book", "gas mask", "map", "saxophone", "radio", "medkit"};
         

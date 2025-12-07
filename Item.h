@@ -8,7 +8,7 @@
 using namespace std;
 
 // --- 物品重量與背包設定常數 ---
-const int waterWeight = 4;
+const int waterWeight = 3;
 const int foodWeight = 2;
 const int axeWeight = 8;
 const int pistolWeight = 5;
