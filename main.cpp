@@ -409,6 +409,16 @@ int main()
                         cout << "!!! Cindy 生病了，但已無急救包可用 (若持續 3 天將死亡)。\n";
                     }
                 }
+                if(cindy.getMental() < 25){
+                    cout << "⚠️ Cindy 的精神狀態極差！\n";
+                    cout << "要使用特殊能力【樂觀幻想】嗎? (精神+20 / 飽食飲水-10) (y/n): ";
+                    char abilityChoice;
+                    cin >> abilityChoice;
+                    if(abilityChoice == 'y' || abilityChoice == 'Y'){
+                        cindy.specialAbility();
+                        cindy.showStatus(); // 更新顯示數值
+                    }
+                }
                 // 補給
                 playerPackage.displayItems();
                 cout << "分配給 Cindy -> 水: ";
@@ -448,6 +458,16 @@ int main()
                     }
                     else{
                         cout << "!!! Chris 生病了，但已無急救包可用 (若持續 3 天將死亡)。\n";
+                    }
+                }
+                if (chris.getThirst() < 20 || chris.getHunger() < 20) {
+                    cout << "⚠️ Chris 的生理狀態極差！\n";
+                    cout << "要使用特殊能力【極限搜尋】嗎? (飢渴飢餓+10 / 精神-15) (y/n): ";
+                    char abilityChoice;
+                    cin >> abilityChoice;
+                    if(abilityChoice == 'y' || abilityChoice == 'Y'){
+                        chris.specialAbility();
+                        chris.showStatus(); // 更新顯示數值
                     }
                 }
                 // 補給

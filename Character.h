@@ -58,6 +58,11 @@ public:
     void thirstChange(int units);
     void hungerChange(int units);
     void mentalChange(int units);
+
+    // 加入 Getters 以便在 main 中判斷數值
+    int getThirst() const { return thirst; }
+    int getHunger() const { return hunger; }
+    int getMental() const { return mental; }
 };
 
 // --- Cindy 角色類別 ---
@@ -87,7 +92,32 @@ public:
         if(!isAlive){
             return;
         }
-        // 特殊能力實作預留
+
+        // 檢查條件：精神必須 < 25 (危險狀態) 才能發動
+        if(mental >= 25){
+        cout << ">> " << name << " 的精神還算穩定 (>=25)，無法發動【樂觀幻想】。\n";
+        return;
+        }
+
+        cout << "\n>>> " << name << " 精神崩潰邊緣，發動了特殊能力：【樂觀幻想】\n";
+        cout << "「只要活下去，總會有希望的...」Cindy 閉上眼自我激勵。\n";
+        cout << "(效果: 精神 +20 / 代價: 飢渴 -10, 飢餓 -10)\n";
+
+        // 恢復精神
+        mental += 20;
+        if(mental > 100){
+            mental = 100;
+        }
+
+        // 扣除生理數值作為代價
+        thirst -= 10;
+        if(thirst < 0){
+            thirst = 0;
+        }
+        hunger -= 10;
+        if(hunger < 0){
+        hunger = 0;
+        }
     }
 };
 
@@ -118,8 +148,33 @@ public:
         if(!isAlive){
             return;
         }
-        // 特殊能力實作預留
-    }
+
+        // 檢查條件：飢渴或飢餓必須 < 20 (危險狀態) 才能發動
+        if(thirst >= 20 && hunger >= 20){
+        cout << ">> " << name << " 的生理狀態尚可 (>=20)，無法發動【極限搜尋】。\n";
+        return;
+        }
+
+        cout << "\n>>> " << name << " 被逼入絕境，發動了特殊能力：【極限搜尋】\n";
+        cout << "「這裡應該還有點東西...」Chris 翻找著牆角的縫隙，找到了一點點生存資源。\n";
+        cout << "(效果: 飢渴 +10, 飢餓 +10 / 代價: 精神 -15)\n";
+
+        // 恢復生理數值
+        thirst += 10;
+        if(thirst > 100){
+            thirst = 100;
+        }
+        hunger += 10;
+        if(hunger > 100){
+            hunger = 100;
+        }
+
+        // 扣除精神作為代價
+        mental -= 15;
+        if(mental < 0){
+            mental = 0;
+        }
+    }  
 };
 
 #endif
