@@ -618,7 +618,7 @@ int main()
 
         // --- 玩家決策 (如果沒人在外面並且兩人都活著，可以派人) ---
         if (!myExpedition.isExpeditionActive() && cindy.isAliveStatus() && chris.isAliveStatus() 
-            && !cindy.isInTheWild && !chris.isInTheWild && days >= 5 && days <= 10 && myExpedition.hadExpedition == false)
+            && !cindy.isInTheWild && !chris.isInTheWild && days >= 5 && days <= 9 && myExpedition.hadExpedition == false)
         {
             cout << "----------------------------------------" << endl;
             cout << "現在避難所全員都在。" << endl;
