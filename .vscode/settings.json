@@ -1,5 +1,11 @@
 {
     "files.associations": {
         "iostream": "cpp"
-    }
+    },
+
+    "terminal.integrated.env.windows": {
+        "WT_SESSION": "1"
+    },
+    "files.encoding": "utf8",
+    "files.autoGuessEncoding": false
 }
