@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>   
 #include "Character.h"
 #include "Item.h"
 #include "event.h"
